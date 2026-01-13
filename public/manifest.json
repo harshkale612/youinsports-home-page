@@ -1,0 +1,15 @@
+{
+  "short_name": "UinSports",
+  "name": "You In Sports- Empowering Athletes",
+  "icons": [
+    {
+      "src": "uinsports-logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#418BCA",
+  "background_color": "#ffffff"
+}
