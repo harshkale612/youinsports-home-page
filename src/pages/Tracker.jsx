@@ -161,7 +161,7 @@ const successStories = [
     achievement: 'Qualified for Olympic Trials',
     fundsRaised: 15000,
     supporters: 124,
-    image: '/placeholder-user.jpg',
+    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop',
     progress: 100
   },
   {
@@ -171,7 +171,7 @@ const successStories = [
     achievement: 'Earned College Scholarship',
     fundsRaised: 12000,
     supporters: 89,
-    image: '/placeholder-user.jpg',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1974&auto=format&fit=crop',
     progress: 95
   },
   {
@@ -181,7 +181,7 @@ const successStories = [
     achievement: 'State Champion 100m',
     fundsRaised: 8000,
     supporters: 67,
-    image: '/placeholder-user.jpg',
+    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1976&auto=format&fit=crop',
     progress: 88
   },
   {
@@ -191,7 +191,7 @@ const successStories = [
     achievement: 'Regional Tournament Winner',
     fundsRaised: 6500,
     supporters: 52,
-    image: '/placeholder-user.jpg',
+    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop',
     progress: 82
   }
 ];
@@ -279,12 +279,12 @@ const Tracker = () => {
               sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'white' }}
             />
             <Chip
-              icon={<TimelineIcon  style={{ color: "white" }}/>}
+              icon={<TimelineIcon style={{ color: "white" }} />}
               label="Progress Tracking"
               sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'white' }}
             />
             <Chip
-              icon={<TrophyIcon style={{ color: "white" }}/>}
+              icon={<TrophyIcon style={{ color: "white" }} />}
               label="Success Stories"
               sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'white' }}
             />
@@ -316,7 +316,7 @@ const Tracker = () => {
               </CardContent>
             </StatCard>
           </Grid>
-          
+
           <Grid item xs={12} sm={6} md={3}>
             <StatCard>
               <CardContent sx={{ textAlign: 'center', p: 3 }}>
@@ -338,7 +338,7 @@ const Tracker = () => {
               </CardContent>
             </StatCard>
           </Grid>
-          
+
           <Grid item xs={12} sm={6} md={3}>
             <StatCard>
               <CardContent sx={{ textAlign: 'center', p: 3 }}>
@@ -360,7 +360,7 @@ const Tracker = () => {
               </CardContent>
             </StatCard>
           </Grid>
-          
+
           <Grid item xs={12} sm={6} md={3}>
             <StatCard>
               <CardContent sx={{ textAlign: 'center', p: 3 }}>
@@ -428,16 +428,16 @@ const Tracker = () => {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="month" />
                         <YAxis />
-                        <RechartsTooltip 
+                        <RechartsTooltip
                           formatter={(value) => [`$${value.toLocaleString()}`, 'Amount']}
                           labelStyle={{ color: '#333' }}
                         />
                         <Legend />
-                        <Area 
-                          type="monotone" 
-                          dataKey="amount" 
-                          stroke="#667eea" 
-                          fill="#667eea" 
+                        <Area
+                          type="monotone"
+                          dataKey="amount"
+                          stroke="#667eea"
+                          fill="#667eea"
                           fillOpacity={0.3}
                           strokeWidth={3}
                         />
@@ -470,7 +470,7 @@ const Tracker = () => {
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ))}
                         </Pie>
-                        <RechartsTooltip 
+                        <RechartsTooltip
                           formatter={(value, name) => [
                             `$${(value * 850000 / 100).toLocaleString()}`,
                             name
@@ -540,7 +540,7 @@ const Tracker = () => {
             <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 4 }}>
               Success Stories
             </Typography>
-            
+
             <Grid container spacing={3}>
               {successStories.map((story) => (
                 <Grid item xs={12} sm={6} md={3} key={story.id}>
@@ -557,11 +557,11 @@ const Tracker = () => {
                           </Typography>
                         </Box>
                       </Box>
-                      
+
                       <Typography variant="body2" sx={{ mb: 2, fontStyle: 'italic' }}>
                         "{story.achievement}"
                       </Typography>
-                      
+
                       <Box sx={{ mb: 2 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                           <Typography variant="body2">
@@ -571,18 +571,18 @@ const Tracker = () => {
                             {story.supporters} supporters
                           </Typography>
                         </Box>
-                        <LinearProgress 
-                          variant="determinate" 
-                          value={story.progress} 
+                        <LinearProgress
+                          variant="determinate"
+                          value={story.progress}
                           sx={{ height: 8, borderRadius: 4 }}
                         />
                       </Box>
-                      
+
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Chip 
-                          label={`${story.progress}% Complete`} 
-                          color="success" 
-                          size="small" 
+                        <Chip
+                          label={`${story.progress}% Complete`}
+                          color="success"
+                          size="small"
                         />
                         <IconButton size="small">
                           <ViewIcon />
@@ -602,7 +602,7 @@ const Tracker = () => {
             <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 4 }}>
               Recent Transactions
             </Typography>
-            
+
             <Card>
               <TableContainer>
                 <Table>
@@ -662,7 +662,7 @@ const Tracker = () => {
             <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 4 }}>
               Generate Reports
             </Typography>
-            
+
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
                 <Card>
@@ -679,7 +679,7 @@ const Tracker = () => {
                   </CardContent>
                 </Card>
               </Grid>
-              
+
               <Grid item xs={12} md={6}>
                 <Card>
                   <CardContent>
@@ -695,7 +695,7 @@ const Tracker = () => {
                   </CardContent>
                 </Card>
               </Grid>
-              
+
               <Grid item xs={12} md={6}>
                 <Card>
                   <CardContent>
@@ -711,7 +711,7 @@ const Tracker = () => {
                   </CardContent>
                 </Card>
               </Grid>
-              
+
               <Grid item xs={12} md={6}>
                 <Card>
                   <CardContent>
@@ -734,7 +734,7 @@ const Tracker = () => {
               <Typography variant="h5" gutterBottom>
                 Frequently Asked Questions
               </Typography>
-              
+
               <Accordion>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography variant="h6">How is the success rate calculated?</Typography>
@@ -745,7 +745,7 @@ const Tracker = () => {
                   </Typography>
                 </AccordionDetails>
               </Accordion>
-              
+
               <Accordion>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography variant="h6">How often is the data updated?</Typography>
@@ -753,10 +753,10 @@ const Tracker = () => {
                 <AccordionDetails>
                   <Typography>
                     All data is updated in real-time. Financial transactions are reflected immediately, while performance metrics are updated daily.
-      </Typography>
+                  </Typography>
                 </AccordionDetails>
               </Accordion>
-              
+
               <Accordion>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography variant="h6">Can I export data for my own analysis?</Typography>
@@ -764,17 +764,17 @@ const Tracker = () => {
                 <AccordionDetails>
                   <Typography>
                     Yes, you can download various reports in CSV, PDF, and Excel formats from the Reports tab above.
-      </Typography>
+                  </Typography>
                 </AccordionDetails>
               </Accordion>
             </Box>
           </Box>
         )}
-    </Container>
+      </Container>
 
       {/* Success Story Dialog */}
-      <Dialog 
-        open={storyDialogOpen} 
+      <Dialog
+        open={storyDialogOpen}
         onClose={() => setStoryDialogOpen(false)}
         maxWidth="md"
         fullWidth
@@ -794,14 +794,14 @@ const Tracker = () => {
                 </Box>
               </Box>
             </DialogTitle>
-            
+
             <DialogContent>
               <Alert severity="success" sx={{ mb: 3 }}>
                 <Typography variant="h6" gutterBottom>
                   Achievement: {selectedStory.achievement}
                 </Typography>
               </Alert>
-              
+
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                   <Typography variant="subtitle2" gutterBottom>
@@ -820,14 +820,14 @@ const Tracker = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              
+
               <Box sx={{ mt: 3 }}>
                 <Typography variant="subtitle2" gutterBottom>
                   Progress
                 </Typography>
-                <LinearProgress 
-                  variant="determinate" 
-                  value={selectedStory.progress} 
+                <LinearProgress
+                  variant="determinate"
+                  value={selectedStory.progress}
                   sx={{ height: 10, borderRadius: 5, mb: 1 }}
                 />
                 <Typography variant="body2" color="text.secondary">
@@ -835,7 +835,7 @@ const Tracker = () => {
                 </Typography>
               </Box>
             </DialogContent>
-            
+
             <DialogActions sx={{ p: 3 }}>
               <Button onClick={() => setStoryDialogOpen(false)}>
                 Close

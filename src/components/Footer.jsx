@@ -7,11 +7,11 @@ import {
   Typography,
   IconButton,
   Divider,
+  TextField,
+  Button
 } from '@mui/material';
-import { FaFacebook as Facebook, FaInstagram as Instagram, FaTwitter as Twitter,  } from 'react-icons/fa';
-import { MdFavorite as Favorite } from 'react-icons/md';
+import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
 import logo from '../../public/uinsports-logo.png';
-import { BsYoutube } from 'react-icons/bs';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -21,18 +21,17 @@ const Footer = () => {
       { name: 'Home', href: '/' },
       { name: 'About Us', href: '/about' },
       { name: 'Community', href: '/community' },
-      // { name: 'Plans & Pricing', href: '/plans' },
+      { name: 'Organizers', href: '/organizers' },
     ],
     Support: [
-      // { name: 'Support Athletes', href: '/support' },
-      // { name: 'Impact Tracker', href: '/tracker' },
-      { name: 'FAQ', href: '/faq' },
-      { name: 'For Organizers', href: '/organizers' },
+      { name: 'Help Center', href: '/faq' },
+      { name: 'Contact Us', href: '/contact' },
+      { name: 'API Documentation', href: '#' },
     ],
     Legal: [
       { name: 'Privacy Policy', href: '/privacy' },
       { name: 'Terms of Service', href: '/terms' },
-      { name: 'Contact Us', href: '/contact' },
+      { name: 'Cookie Policy', href: '#' },
     ],
   };
 
@@ -40,234 +39,132 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
-        borderTop: '1px solid #e5e7eb',
-        backgroundColor: '#ffffff',
-        py: 6,
+        backgroundColor: 'var(--uinsports-navy)',
+        color: 'white',
+        pt: 10,
+        pb: 6,
+        borderTop: '1px solid rgba(255,255,255,0.1)'
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={4}>
+        <Grid container spacing={8}>
           {/* Brand Section */}
-          <Grid item xs={12} md={4}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Grid item xs={12} lg={4}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, maxWidth: 350 }}>
               <Link to="/" style={{ textDecoration: 'none' }}>
-                <img src={logo} alt="UinSports Logo" style={{ height: '80px' }} />
+                <Box
+                  component="img"
+                  src={logo}
+                  alt="UinSports Logo"
+                  sx={{ height: 60, filter: 'brightness(0) invert(1)' }}
+                />
               </Link>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: '#6b7280',
-                  lineHeight: 1.6,
-                  maxWidth: '300px',
-                }}
-              >
-                Empowering amateur athletes through networking and community support. Building the future of sports, one
-                athlete at a time.
+              <Typography sx={{ color: 'var(--gray-400)', lineHeight: 1.6 }}>
+                Empowering amateur athletes through networking and community support. The future of sports is connected.
               </Typography>
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <IconButton
-                  component="a"
-                  href="https://www.facebook.com/uinsportsinc"
-                  aria-label="Facebook"
-                  sx={{
-                    color: '#9ca3af',
-                    '&:hover': {
-                      color: '#418BCA',
-                      transform: 'translateY(-2px)',
-                    },
-                    transition: 'all 0.2s ease',
-                  }}
-                >
-                  <Facebook />
-                </IconButton>
-                <IconButton
-                  component="a"
-                  href="https://x.com/uinsportsinc"
-                  aria-label="Twitter"
-                  sx={{
-                    color: '#9ca3af',
-                    '&:hover': {
-                      color: '#418BCA',
-                      transform: 'translateY(-2px)',
-                    },
-                    transition: 'all 0.2s ease',
-                  }}
-                >
-                  <Twitter />
-                </IconButton>
-                <IconButton
-                  component="a"
-                  href="#"
-                  aria-label="Instagram"
-                  sx={{
-                    color: '#9ca3af',
-                    '&:hover': {
-                      color: '#418BCA',
-                      transform: 'translateY(-2px)',
-                    },
-                    transition: 'all 0.2s ease',
-                  }}
-                >
-                  <Instagram />
-                </IconButton>
-                <IconButton
-                component="a"
-                href="https://www.youtube.com/@uinsportsinc"
-                aria-label="YouTube"
-                sx={{
-                  color: '#9ca3af',
-                  '&:hover': {
-                    color: '#418BCA',
-                    transform: 'translateY(-2px)',
-                  },
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                <BsYoutube />
-              </IconButton>
-              </Box>
-            </Box>
-          </Grid>
 
-          {/* Platform Links */}
-          <Grid item xs={12} sm={4} md={2}>
-            <Box>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontWeight: 700,
-                  color: '#0C3042',
-                  mb: 2,
-                  fontSize: '18px',
-                }}
-              >
-                Platform
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                {footerLinks.Platform.map((link) => (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    style={{
-                      textDecoration: 'none',
-                      color: '#6b7280',
-                      fontSize: '14px',
-                      transition: 'color 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.color = '#418BCA';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.color = '#6b7280';
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                {[FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaYoutube].map((Icon, index) => (
+                  <IconButton
+                    key={index}
+                    sx={{
+                      color: 'var(--gray-400)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      '&:hover': { color: 'white', borderColor: 'white', bgcolor: 'rgba(255,255,255,0.05)' }
                     }}
                   >
-                    {link.name}
-                  </Link>
+                    <Icon size={16} />
+                  </IconButton>
                 ))}
               </Box>
             </Box>
           </Grid>
 
-          {/* Support Links */}
-          <Grid item xs={12} sm={4} md={2}>
-            <Box>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontWeight: 700,
-                  color: '#0C3042',
-                  mb: 2,
-                  fontSize: '18px',
-                }}
-              >
-                Support
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                {footerLinks.Support.map((link) => (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    style={{
-                      textDecoration: 'none',
-                      color: '#6b7280',
-                      fontSize: '14px',
-                      transition: 'color 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.color = '#418BCA';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.color = '#6b7280';
-                    }}
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </Box>
-            </Box>
+          {/* Links Section */}
+          <Grid item xs={12} lg={5}>
+            <Grid container spacing={4}>
+              {Object.entries(footerLinks).map(([category, links]) => (
+                <Grid item xs={6} md={4} key={category}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 3, color: 'white' }}>
+                    {category}
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    {links.map((link) => (
+                      <Link
+                        key={link.name}
+                        to={link.href}
+                        style={{
+                          textDecoration: 'none',
+                          color: 'var(--gray-400)',
+                          fontSize: '0.95rem',
+                          transition: 'color 0.2s ease',
+                        }}
+                        className="hover-text-white"
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
 
-          {/* Legal Links */}
-          <Grid item xs={12} sm={4} md={2}>
-            <Box>
-              <Typography
-                variant="h6"
+          {/* Newsletter Section */}
+          <Grid item xs={12} lg={3}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 3, color: 'white' }}>
+              Stay Updated
+            </Typography>
+            <Typography sx={{ color: 'var(--gray-400)', mb: 3, fontSize: '0.9rem' }}>
+              Subscribe to our newsletter for the latest opportunities.
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <TextField
+                placeholder="Enter your email"
+                variant="outlined"
+                size="small"
+                fullWidth
                 sx={{
-                  fontWeight: 700,
-                  color: '#0C3042',
-                  mb: 2,
-                  fontSize: '18px',
+                  '& .MuiOutlinedInput-root': {
+                    bgcolor: 'rgba(255,255,255,0.05)',
+                    color: 'white',
+                    borderRadius: '8px',
+                    '& fieldset': { borderColor: 'rgba(255,255,255,0.1)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                    '&.Mui-focused fieldset': { borderColor: 'var(--uinsports-blue)' }
+                  }
+                }}
+              />
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{
+                  bgcolor: 'var(--uinsports-orange)',
+                  color: 'white',
+                  fontWeight: 600,
+                  py: 1,
+                  borderRadius: '8px',
+                  textTransform: 'none',
+                  '&:hover': { bgcolor: '#d95d22' }
                 }}
               >
-                Legal
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                {footerLinks.Legal.map((link) => (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    style={{
-                      textDecoration: 'none',
-                      color: '#6b7280',
-                      fontSize: '14px',
-                      transition: 'color 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.color = '#418BCA';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.color = '#6b7280';
-                    }}
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </Box>
+                Subscribe
+              </Button>
             </Box>
           </Grid>
-
-          {/* Empty column for spacing */}
-          <Grid item xs={12} md={2} />
         </Grid>
 
-        <Divider sx={{ my: 4, background: 'linear-gradient(90deg, transparent, #e5e7eb, transparent)' }} />
+        <Divider sx={{ my: 6, borderColor: 'rgba(255,255,255,0.1)' }} />
 
-        {/* Copyright Section */}
-        <Box sx={{ textAlign: 'center' }}>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: '#6b7280',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 1,
-                }}
-              >
-            &copy; {currentYear} You In Sports. All rights reserved. Made with{' '}💗
-            {/* <Favorite sx={{ color: '#ef4444', fontSize: '16px' }} />  */}
-            for athletes everywhere.
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between', alignItems: 'center', gap: 2 }}>
+          <Typography variant="body2" sx={{ color: 'var(--gray-500)' }}>
+            &copy; {currentYear} You In Sports Inc. All rights reserved.
           </Typography>
+          {/* <Box sx={{ display: 'flex', gap: 4 }}>
+              <Link to="/privacy" style={{ textDecoration: 'none', color: 'var(--gray-500)', fontSize: '0.875rem' }}>Privacy</Link>
+              <Link to="/terms" style={{ textDecoration: 'none', color: 'var(--gray-500)', fontSize: '0.875rem' }}>Terms</Link>
+              <Link to="/cookies" style={{ textDecoration: 'none', color: 'var(--gray-500)', fontSize: '0.875rem' }}>Cookies</Link>
+           </Box> */}
         </Box>
       </Container>
     </Box>

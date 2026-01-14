@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   AppBar,
@@ -16,190 +16,125 @@ import {
   Divider,
   useMediaQuery,
   useTheme,
+  Container,
+  Tooltip
 } from '@mui/material';
 import {
   MdMenu as MenuIcon,
   MdClose as CloseIcon,
-  MdExpandMore as ExpandMore,
-  MdVideoLibrary as VideoLibrary,
-  MdSmartToy as SmartToy,
-  MdPerson as Person,
+  MdLightMode as LightModeIcon,
+  MdDarkMode as DarkModeIcon,
 } from 'react-icons/md';
 import logo from '../../public/uinsports-logo.png';
+import { ColorModeContext } from '../App';
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [aiMenuAnchor, setAiMenuAnchor] = useState(null);
-  const [getStartedMenuAnchor, setGetStartedMenuAnchor] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  // Handle scroll effect for transparency -> glass
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navItems = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Community", href: "/community" },
-    // { name: "Support", href: "/support" },
     { name: "Organizers", href: "/organizers" },
-    // { name: "Tracker", href: "/tracker" },
+    // { name: "FAQ", href: "/faq" },
   ];
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  // const handleAiMenuOpen = (event) => {
-  //   setAiMenuAnchor(event.currentTarget);
-  // };
-
-  const handleAiMenuClose = () => {
-    setAiMenuAnchor(null);
-  };
-
-  const handleGetStartedMenuOpen = (event) => {
-    setGetStartedMenuAnchor(event.currentTarget);
-  };
-
-  const handleGetStartedMenuClose = () => {
-    setGetStartedMenuAnchor(null);
-  };
-
   const isActive = (path) => location.pathname === path;
 
+  // Mobile Drawer Content
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2 }}>
-        <img src={logo} alt="UinSports Logo" style={{ height: '80px' }} />
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
+      <Box sx={{ p: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <img src={logo} alt="UinSports Logo" style={{ height: '60px' }} />
         <IconButton onClick={handleDrawerToggle}>
-          <CloseIcon />
+          <CloseIcon fontSize="large" sx={{ color: 'text.primary' }} />
         </IconButton>
       </Box>
-      <Divider />
-      <List>
+      <Divider sx={{ borderColor: 'divider' }} />
+      <List sx={{ px: 2, pt: 3, flex: 1 }}>
         {navItems.map((item) => (
-          <ListItem key={item.name} disablePadding>
+          <ListItem key={item.name} disablePadding sx={{ mb: 1 }}>
             <Link
               to={item.href}
+              onClick={handleDrawerToggle}
               style={{
                 textDecoration: 'none',
-                color: isActive(item.href) ? '#418BCA' : '#374151',
-                fontWeight: isActive(item.href) ? 600 : 400,
-                padding: '12px 16px',
-                display: 'block',
                 width: '100%',
+                display: 'block',
+                padding: '12px 16px',
+                borderRadius: '8px',
+                fontSize: '1.125rem',
+                fontWeight: isActive(item.href) ? 700 : 500,
+                color: isActive(item.href) ? 'var(--uinsports-blue)' : 'var(--gray-700)',
+                backgroundColor: isActive(item.href) ? 'var(--gray-50)' : 'transparent',
+                transition: 'all 0.2s ease',
               }}
             >
               {item.name}
             </Link>
           </ListItem>
         ))}
-        <Divider sx={{ my: 1 }} />
-        {/* <ListItem>
-          <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#111827' }}>
-            AI Features
-          </Typography>
-        </ListItem>
-        <ListItem disablePadding>
-          <Link
-            to="/video-analysis"
-            style={{
-              textDecoration: 'none',
-              color: '#6B7280',
-              padding: '8px 16px',
-              display: 'flex',
-              alignItems: 'center',
-              width: '100%',
-            }}
-          >
-            <VideoLibrary sx={{ mr: 1, fontSize: 20 }} />
-            Video Analysis
-          </Link>
-        </ListItem>
-        <ListItem disablePadding>
-          <Link
-            to="/ai-agents"
-            style={{
-              textDecoration: 'none',
-              color: '#6B7280',
-              padding: '8px 16px',
-              display: 'flex',
-              alignItems: 'center',
-              width: '100%',
-            }}
-          >
-            <SmartToy sx={{ mr: 1, fontSize: 20 }} />
-            AI Agents
-          </Link>
-        </ListItem> */}
-        {/* <ListItem disablePadding>
-          <Link
-            to="/profile/player"
-            style={{
-              textDecoration: 'none',
-              color: '#6B7280',
-              padding: '8px 16px',
-              display: 'flex',
-              alignItems: 'center',
-              width: '100%',
-            }}
-          >
-            <Person sx={{ mr: 1, fontSize: 20 }} />
-            Player Profiles
-          </Link>
-        </ListItem> */}
-        <Divider sx={{ my: 1 }} />
-        {/* <ListItem>
-          <Link to="/plans" style={{ textDecoration: 'none', width: '100%' }}>
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: '#F26A27',
-                color: 'white',
-                width: '100%',
-                '&:hover': {
-                  backgroundColor: 'rgba(242, 106, 39, 0.9)',
-                },
-              }}
-            >
-              Get Started
-            </Button>
-          </Link>
-        </ListItem> */}
-        <ListItem sx={{ flexDirection: 'column', gap: 1 }}>
-          <Link to="/signup" style={{ textDecoration: 'none', width: '100%' }}>
-            <Button
-              variant="outlined"
-              sx={{
-                borderColor: '#418BCA',
-                color: '#418BCA',
-                width: '100%',
-                '&:hover': {
-                  borderColor: '#418BCA',
-                  backgroundColor: 'rgba(65, 139, 202, 0.04)',
-                },
-              }}
-            >
-              Sign Up
-            </Button>
-          </Link>
-          <Link to="/login" style={{ textDecoration: 'none', width: '100%' }}>
-            <Button
-              variant="outlined"
-              sx={{
-                borderColor: '#418BCA',
-                color: '#418BCA',
-                width: '100%',
-                '&:hover': {
-                  borderColor: '#418BCA',
-                  backgroundColor: 'rgba(65, 139, 202, 0.04)',
-                },
-              }}
-            >
-              Login
-            </Button>
-          </Link>
-        </ListItem>
       </List>
+      <Box sx={{ p: 3, borderTop: '1px solid', borderColor: 'divider' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+          <Typography sx={{ fontWeight: 600 }}>Theme</Typography>
+          <IconButton onClick={colorMode.toggleColorMode} sx={{ bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider' }}>
+            {theme.palette.mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+          </IconButton>
+        </Box>
+        <Link to="/login" style={{ textDecoration: 'none', width: '100%' }}>
+          <Button
+            fullWidth
+            variant="outlined"
+            sx={{
+              mb: 2,
+              borderColor: 'var(--uinsports-blue)',
+              color: 'var(--uinsports-blue)',
+              fontWeight: 600,
+              py: 1.5,
+              borderRadius: '8px',
+              textTransform: 'none',
+            }}
+          >
+            Login
+          </Button>
+        </Link>
+        <Link to="/signup" style={{ textDecoration: 'none', width: '100%' }}>
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{
+              background: 'var(--gradient-primary)',
+              color: 'white',
+              fontWeight: 700,
+              py: 1.5,
+              borderRadius: '8px',
+              textTransform: 'none',
+              boxShadow: 'var(--shadow-lg)',
+            }}
+          >
+            Sign Up
+          </Button>
+        </Link>
+      </Box>
     </Box>
   );
 
@@ -207,213 +142,167 @@ const Navbar = () => {
     <>
       <AppBar
         position="sticky"
-        sx={{
-          backgroundColor: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(10px)',
-          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-          borderBottom: '1px solid rgba(229, 231, 235, 0.5)',
-        }}
+        elevation={0}
       >
-        <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, md: 3 } }}>
-          <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <img src={logo} alt="UinSports Logo" style={{ height: '80px' }} />
-          </Link>
-
-          {!isMobile && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  style={{
-                    textDecoration: 'none',
-                    color: isActive(item.href) ? '#418BCA' : '#374151',
-                    fontWeight: isActive(item.href) ? 600 : 400,
-                    fontSize: '14px',
-                    paddingBottom: 6,
-                    borderBottom: isActive(item.href) ? '2px solid #418BCA' : '2px solid transparent',
-                    transition: 'color 0.2s ease, border-color 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive(item.href)) {
-                      e.currentTarget.style.borderBottomColor = '#e5e7eb';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive(item.href)) {
-                      e.currentTarget.style.borderBottomColor = 'transparent';
-                    }
-                  }}
-                >
-                  {item.name}
-                </Link>
-              ))}
-
-              {/* <Button
-                onClick={handleAiMenuOpen}
-                endIcon={<ExpandMore />}
-                sx={{
-                  color: '#374151',
-                  fontWeight: 600,
-                  fontSize: '14px',
-                  textTransform: 'none',
-                  '&:hover': {
-                    color: '#418BCA',
-                  },
+        <Container maxWidth="xl">
+          <Toolbar disableGutters sx={{ justifyContent: 'space-between', height: { xs: 70, md: 80 } }}>
+            {/* Logo */}
+            <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+              <img
+                src={logo}
+                alt="UinSports Logo"
+                style={{
+                  height: isMobile ? '45px' : '60px',
+                  transition: 'height 0.3s ease'
                 }}
-              >
-                AI Features
-              </Button> */}
+              />
+            </Link>
 
-              <Button
-                // onClick={handleGetStartedMenuOpen}
-                sx={{
-                  backgroundColor: '#F26A27',
-                  color: 'white',
-                  fontWeight: 600,
-                  borderRadius: '8px',
-                  px: 2,
-                  py: 1,
-                  textTransform: 'none',
-                  '&:hover': {
-                    backgroundColor: 'rgba(242, 106, 39, 0.9)',
-                  },
-                }}
-              >
-                Login
-              </Button>
+            {/* Icons & Actions */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, md: 3 } }}>
+              {/* Desktop Navigation */}
+              {!isMobile && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <Box sx={{ display: 'flex', gap: 4 }}>
+                    {navItems.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        style={{
+                          textDecoration: 'none',
+                          color: isActive(item.href) ? 'var(--uinsports-blue)' : 'var(--gray-600)',
+                          fontWeight: isActive(item.href) ? 700 : 500,
+                          fontSize: '1rem',
+                          padding: '8px 0',
+                          position: 'relative',
+                          transition: 'color 0.2s ease',
+                        }}
+                        className="hover-lift"
+                      >
+                        {item.name}
+                        {isActive(item.href) && (
+                          <Box
+                            component="span"
+                            sx={{
+                              position: 'absolute',
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              height: '2.5px',
+                              borderRadius: '2px',
+                              background: 'var(--gradient-primary)',
+                              transformOrigin: 'left',
+                              animation: 'fadeIn 0.3s ease',
+                            }}
+                          />
+                        )}
+                      </Link>
+                    ))}
+                  </Box>
 
-              <Button
-                // onClick={handleGetStartedMenuOpen}
-                sx={{
-                  backgroundColor: '#F26A27',
-                  color: 'white',
-                  fontWeight: 600,
-                  borderRadius: '8px',
-                  px: 2,
-                  py: 1,
-                  textTransform: 'none',
-                  '&:hover': {
-                    backgroundColor: 'rgba(242, 106, 39, 0.9)',
-                  },
-                }}
-              >
-                Sign up
-              </Button>
+                  {/* Theme Toggle Button */}
+                  <Tooltip title={`Switch to ${theme.palette.mode === 'light' ? 'dark' : 'light'} mode`}>
+                    <IconButton
+                      onClick={colorMode.toggleColorMode}
+                      color="inherit"
+                      sx={{
+                        bgcolor: theme.palette.mode === 'light' ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.08)',
+                        '&:hover': {
+                          bgcolor: theme.palette.mode === 'light' ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.12)',
+                        }
+                      }}
+                    >
+                      {theme.palette.mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+                    </IconButton>
+                  </Tooltip>
+
+                  <Divider orientation="vertical" flexItem sx={{ height: 24, alignSelf: 'center', borderColor: 'divider' }} />
+
+                  {/* Auth Buttons */}
+                  <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                    <Link to="/login" style={{ textDecoration: 'none' }}>
+                      <Button
+                        sx={{
+                          color: 'text.primary',
+                          fontWeight: 600,
+                          textTransform: 'none',
+                          fontSize: '1rem',
+                          '&:hover': { color: 'var(--uinsports-blue)', background: 'transparent' },
+                        }}
+                      >
+                        Login
+                      </Button>
+                    </Link>
+                    <Link to="/signup" style={{ textDecoration: 'none' }}>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          background: 'var(--gradient-primary)',
+                          color: 'white',
+                          px: 3,
+                          py: 1,
+                          borderRadius: '50px',
+                          fontWeight: 700,
+                          textTransform: 'none',
+                          fontSize: '1rem',
+                          boxShadow: '0 4px 12px rgba(242, 106, 39, 0.2)',
+                          '&:hover': {
+                            transform: 'translateY(-1px)',
+                            boxShadow: '0 8px 16px rgba(242, 106, 39, 0.3)',
+                          },
+                          transition: 'all 0.2s ease',
+                        }}
+                      >
+                        Sign Up
+                      </Button>
+                    </Link>
+                  </Box>
+                </Box>
+              )}
+
+              {/* Mobile Actions */}
+              {isMobile && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <IconButton
+                    onClick={colorMode.toggleColorMode}
+                    sx={{ color: 'text.primary' }}
+                  >
+                    {theme.palette.mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+                  </IconButton>
+                  <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    edge="end"
+                    onClick={handleDrawerToggle}
+                    sx={{
+                      color: 'text.primary',
+                      background: theme.palette.mode === 'light' ? 'rgba(0,0,0,0.03)' : 'rgba(255,255,255,0.05)',
+                      '&:hover': { background: theme.palette.mode === 'light' ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.1)' }
+                    }}
+                  >
+                    <MenuIcon fontSize="large" />
+                  </IconButton>
+                </Box>
+              )}
             </Box>
-          )}
-
-          {isMobile && (
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ color: '#374151' }}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
-        </Toolbar>
+          </Toolbar>
+        </Container>
       </AppBar>
-
-      {/* AI Features Menu */}
-      {/* <Menu
-        anchorEl={aiMenuAnchor}
-        open={Boolean(aiMenuAnchor)}
-        onClose={handleAiMenuClose}
-        PaperProps={{
-          sx: {
-            mt: 1,
-            minWidth: 200,
-            borderRadius: '12px',
-            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-          },
-        }}
-      >
-        <MenuItem
-          component={Link}
-          to="/video-analysis"
-          onClick={handleAiMenuClose}
-          sx={{ fontWeight: 600 }}
-        >
-          <VideoLibrary sx={{ mr: 2, fontSize: 20 }} />
-          Video Analysis
-        </MenuItem>
-        <MenuItem
-          component={Link}
-          to="/ai-agents"
-          onClick={handleAiMenuClose}
-          sx={{ fontWeight: 600 }}
-        >
-          <SmartToy sx={{ mr: 2, fontSize: 20 }} />
-          AI Agents
-        </MenuItem>
-        <MenuItem
-          component={Link}
-          to="/profile/player"
-          onClick={handleAiMenuClose}
-          sx={{ fontWeight: 600 }}
-        >
-          <Person sx={{ mr: 2, fontSize: 20 }} />
-          Player Profiles
-        </MenuItem>
-      </Menu> */}
-
-      {/* Get Started Menu */}
-      <Menu
-        anchorEl={getStartedMenuAnchor}
-        open={Boolean(getStartedMenuAnchor)}
-        onClose={handleGetStartedMenuClose}
-        PaperProps={{
-          sx: {
-            mt: 1,
-            minWidth: 150,
-            borderRadius: '12px',
-            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-          },
-        }}
-      >
-        <MenuItem
-          component={Link}
-          to="/signup"
-          onClick={handleGetStartedMenuClose}
-          sx={{ fontWeight: 600 }}
-        >
-          Sign Up
-        </MenuItem>
-        {/* <MenuItem
-          component={Link}
-          to="/plans"
-          onClick={handleGetStartedMenuClose}
-          sx={{ fontWeight: 600 }}
-        >
-          View Plans
-        </MenuItem> */}
-        <MenuItem
-          component={Link}
-          to="/login"
-          onClick={handleGetStartedMenuClose}
-          sx={{ fontWeight: 600 }}
-        >
-          Login
-        </MenuItem>
-      </Menu>
 
       {/* Mobile Drawer */}
       <Drawer
         variant="temporary"
-        anchor="left"
+        anchor="right"
         open={mobileOpen}
         onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true,
-        }}
+        ModalProps={{ keepMounted: true }}
         sx={{
           display: { xs: 'block', md: 'none' },
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
-            width: 280,
+            width: 300,
+            background: 'background.default',
+            backdropFilter: 'blur(20px)',
           },
         }}
       >

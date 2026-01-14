@@ -18,7 +18,7 @@ export async function fetchAthletes(filters = {}) {
       gender: "Female",
       age: 19,
       location: "London",
-      image: "/placeholder.svg?height=200&width=200&text=EJ",
+      image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop",
     },
     {
       id: 2,
@@ -27,7 +27,7 @@ export async function fetchAthletes(filters = {}) {
       gender: "Male",
       age: 22,
       location: "Manchester",
-      image: "/placeholder.svg?height=200&width=200&text=JW",
+      image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2070&auto=format&fit=crop",
     },
     {
       id: 3,
@@ -36,7 +36,7 @@ export async function fetchAthletes(filters = {}) {
       gender: "Female",
       age: 20,
       location: "Birmingham",
-      image: "/placeholder.svg?height=200&width=200&text=SM",
+      image: "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?q=80&w=2016&auto=format&fit=crop",
     },
   ];
 }
@@ -83,7 +83,7 @@ export async function fetchSupportNeeds() {
       id: 1,
       athlete: "Emma Johnson",
       sport: "Swimming",
-      image: "/placeholder.svg?height=200&width=200&text=EJ",
+      image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop",
       needs: [
         { type: "Coaching Fees", amount: 2000, raised: 1200 },
         { type: "Travel Expenses", amount: 1500, raised: 800 },
@@ -103,7 +103,7 @@ export async function fetchSupportNeeds() {
       id: 2,
       athlete: "James Wilson",
       sport: "Athletics",
-      image: "/placeholder.svg?height=200&width=200&text=JW",
+      image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2070&auto=format&fit=crop",
       needs: [
         { type: "Coaching Fees", amount: 1800, raised: 900 },
         { type: "Supplements", amount: 600, raised: 400 },
@@ -122,7 +122,7 @@ export async function fetchSupportNeeds() {
       id: 3,
       athlete: "Sophia Martinez",
       sport: "Gymnastics",
-      image: "/placeholder.svg?height=200&width=200&text=SM",
+      image: "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?q=80&w=2016&auto=format&fit=crop",
       needs: [
         { type: "Training Facility", amount: 3000, raised: 1500 },
         { type: "Coaching Fees", amount: 2500, raised: 1000 },

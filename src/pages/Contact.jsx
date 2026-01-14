@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardHeader,
   Typography,
   Container,
   Grid,
@@ -14,8 +13,14 @@ import {
   MenuItem,
   Select,
   TextField,
+  Paper,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  useTheme
 } from "@mui/material"
-import { MdEmail, MdPhone, MdPlace, MdAccessTime, MdSend, MdChat, MdGroups, MdFavorite } from "react-icons/md"
+import { MdEmail, MdPhone, MdLocationOn, MdAccessTime, MdSend, MdArrowForward, MdExpandMore } from "react-icons/md"
+import { motion } from "framer-motion"
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -33,232 +38,199 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSelectChange = (value) => setFormData((prev) => ({ ...prev, category: value }))
+  const handleSelectChange = (e) => setFormData((prev) => ({ ...prev, category: e.target.value }))
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
-
-    // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 2000))
-
     setSubmitSuccess(true)
     setIsSubmitting(false)
-
-    // Reset form after success
     setTimeout(() => {
       setSubmitSuccess(false)
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        category: "",
-        message: "",
-      })
+      setFormData({ name: "", email: "", subject: "", category: "", message: "" })
     }, 3000)
   }
 
+  const theme = useTheme();
+
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <Box sx={{ bgcolor: 'white', minHeight: '100vh', overflowX: 'hidden' }}>
       <SeoSchema
         type="WebPage"
-        name="Contact Us - You In Sports"
-        description="Get in touch with the You In Sports team. We're here to help athletes, coaches, and supporters."
-        url="https://uinsports.com/contact"
+        name="Contact Us | You In Sports"
+        description="Get in touch with the You In Sports team."
+        url="https://youinsports.com/contact"
       />
-      <Box sx={{ width: "100%", py: 8, background: "linear-gradient(135deg, #0C3042 0%, #418BCA 100%)", color: "white" }}>
-        <Container maxWidth="lg">
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 2 }}>
-            <Box sx={{ display: "inline-flex", alignItems: "center", px: 1.5, py: 0.5, borderRadius: "9999px", border: "1px solid rgba(255,255,255,0.2)", backgroundColor: "rgba(255,255,255,0.1)", fontWeight: 600, mb: 1 }}>
-              <MdChat style={{ marginRight: 8 }} /> Get in Touch
-            </Box>
-            <Typography variant="h2" sx={{ fontWeight: 700, fontSize: { xs: 32, md: 40 } }}>Contact Us</Typography>
-            <Typography sx={{ color: "rgba(255,255,255,0.9)", maxWidth: 600 }}>
-              We're here to help athletes, coaches, and supporters. Reach out to us and let's make sports dreams happen together!
-            </Typography>
-          </Box>
-        </Container>
-      </Box>
 
-      <Box sx={{ width: "100%", py: 8, backgroundColor: "#f9fafb" }}>
-        <Container maxWidth="lg">
-          <Grid container spacing={2} sx={{ mb: 4 }}>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card className="clean-card clean-hover-lift" sx={{ textAlign: "center" }}>
-                <CardContent sx={{ p: 3 }}>
-                  <Box sx={{ width: 48, height: 48, mx: "auto", mb: 1.5, borderRadius: "9999px", backgroundColor: "rgba(65,139,202,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <MdEmail style={{ color: "#418BCA", fontSize: 24 }} />
-                  </Box>
-                  <Typography sx={{ fontWeight: 700, color: "#0C3042", mb: 0.5 }}>Email Us</Typography>
-                  <Typography sx={{ fontSize: 14, color: "#6b7280", mb: 1 }}>General inquiries</Typography>
-                  <a href="mailto:hello@youinsports.com" style={{ color: "#418BCA", textDecoration: "underline", fontWeight: 600 }}>hello@youinsports.com</a>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card className="clean-card clean-hover-lift" sx={{ textAlign: "center" }}>
-                <CardContent sx={{ p: 3 }}>
-                  <Box sx={{ width: 48, height: 48, mx: "auto", mb: 1.5, borderRadius: "9999px", backgroundColor: "rgba(242,106,39,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <MdPhone style={{ color: "#F26A27", fontSize: 24 }} />
-                  </Box>
-                  <Typography sx={{ fontWeight: 700, color: "#0C3042", mb: 0.5 }}>Call Us</Typography>
-                  <Typography sx={{ fontSize: 14, color: "#6b7280", mb: 1 }}>Mon-Fri 9AM-6PM PST</Typography>
-                  <a href="tel:+15551234567" style={{ color: "#F26A27", textDecoration: "underline", fontWeight: 600 }}>+1 (555) 123-4567</a>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card className="clean-card clean-hover-lift" sx={{ textAlign: "center" }}>
-                <CardContent sx={{ p: 3 }}>
-                  <Box sx={{ width: 48, height: 48, mx: "auto", mb: 1.5, borderRadius: "9999px", backgroundColor: "rgba(12,48,66,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <MdPlace style={{ color: "#0C3042", fontSize: 24 }} />
-                  </Box>
-                  <Typography sx={{ fontWeight: 700, color: "#0C3042", mb: 0.5 }}>Visit Us</Typography>
-                  <Typography sx={{ fontSize: 14, color: "#6b7280" }}>123 Sports Avenue<br/>Athletic City, AC 12345</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card className="clean-card clean-hover-lift" sx={{ textAlign: "center" }}>
-                <CardContent sx={{ p: 3 }}>
-                  <Box sx={{ width: 48, height: 48, mx: "auto", mb: 1.5, borderRadius: "9999px", backgroundColor: "rgba(65,139,202,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <MdAccessTime style={{ color: "#418BCA", fontSize: 24 }} />
-                  </Box>
-                  <Typography sx={{ fontWeight: 700, color: "#0C3042", mb: 0.5 }}>Support Hours</Typography>
-                  <Typography sx={{ fontSize: 14, color: "#6b7280" }}>Monday - Friday<br/>9:00 AM - 6:00 PM PST</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={4}>
-            <Grid item xs={12} lg={6}>
-              <Card>
-                <Typography>
-                  <Typography sx={{ fontWeight: 600, padding: 3, fontSize: "25px" }}>Send us a Message</Typography>
-                  <Typography sx={{ fontWeight: 400, marginLeft: 3, fontSize: "20px" , color: "#6b7280",marginTop: -3 }}>
-                    Fill out the form below and we'll get back to you within 24 hours. Let's chat! 
-                  </Typography>
+      <Container maxWidth="xl" sx={{ p: 0 }}>
+        <Grid container sx={{ minHeight: '100vh' }}>
+          {/* LEFT: Content & Form */}
+          <Grid item xs={12} lg={6} sx={{ p: { xs: 4, md: 10 }, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+              <Box sx={{ mb: 6 }}>
+                <Typography
+                  className="text-display"
+                  sx={{
+                    color: 'var(--gray-900)',
+                    fontSize: { xs: '3rem', md: '5rem' },
+                    fontWeight: 800,
+                    lineHeight: 1,
+                    mb: 3
+                  }}
+                >
+                  Let's Talk <br /> <span className="text-gradient-primary">Sports.</span>
                 </Typography>
-                <CardContent>
-                  {submitSuccess ? (
-                    <Box sx={{ textAlign: "center", py: 4 }}>
-                      <Box sx={{ width: 64, height: 64, mx: "auto", mb: 2, borderRadius: "9999px", backgroundColor: "#dcfce7", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <MdSend style={{ color: "#16a34a", fontSize: 32 }} />
-                      </Box>
-                      <Typography variant="h6" sx={{ color: "#16a34a", fontWeight: 700, mb: 1 }}>Message Sent Successfully! 🎉</Typography>
-                      <Typography sx={{ color: "#6b7280" }}>
-                        Thanks for reaching out! We'll get back to you within 24 hours. Keep being awesome!
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                      
-                      <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
-                          <TextField id="name" name="name" type="text" label="Full Name *" required value={formData.name} onChange={handleInputChange} fullWidth />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                          <TextField id="email" name="email" type="email" label="Email Address *" required value={formData.email} onChange={handleInputChange} fullWidth />
-                        </Grid>
-                      </Grid>
-
-                      <Box>
-                        <InputLabel id="category-label">Category *</InputLabel>
-                        <Select labelId="category-label" id="category" value={formData.category} label="Category *" onChange={(e) => handleSelectChange(e.target.value)} fullWidth required>
-                          <MenuItem value="general">General Inquiry</MenuItem>
-                          <MenuItem value="athlete">Athlete Support</MenuItem>
-                          <MenuItem value="coach">Coach/Sponsor</MenuItem>
-                          <MenuItem value="technical">Technical Support</MenuItem>
-                          <MenuItem value="partnership">Partnership</MenuItem>
-                          <MenuItem value="media">Media Inquiry</MenuItem>
-                        </Select>
-                      </Box>
-
-                      <TextField id="subject" name="subject" type="text" label="Subject *" required value={formData.subject} onChange={handleInputChange} fullWidth />
-                      <TextField id="message" name="message" label="Message *" required value={formData.message} onChange={handleInputChange} fullWidth multiline rows={6} />
-
-                      <Button type="submit" disabled={isSubmitting} size="large" sx={{ 
-                        width: "100%", 
-                        color: "white",
-                        backgroundColor: 'rgb(242 106 39 / var(--tw-bg-opacity, 1))',
-                      '&:hover': {
-                        backgroundColor: 'rgba(46, 150, 255, 0.976)',
-                      }, }}>
-                        {isSubmitting ? "Sending Message..." : (<> <MdSend style={{ marginRight: 8 }} /> Send Message</>)}
-                      </Button>
-                    </Box>
-                  )}
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} lg={6}>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                <Card className="clean-card">
-                  <Typography>
-                    <Typography sx={{ fontWeight: 600, padding: 3, fontSize: "25px" }}>Quick Help</Typography>
-                    <Typography sx={{ marginLeft: 3, fontSize: "20px", color: "#6b7280", marginTop: -3 }}>Need immediate assistance? Check out these resources:</Typography>
-                  </Typography>
-                  <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                    <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
-                      <MdGroups style={{ color: "#418BCA", fontSize: 20, marginTop: 4 }} />
-                      <Box>
-                        <Typography sx={{ fontWeight: 600, color: "#0C3042" }}>For Athletes</Typography>
-                        <Typography sx={{ fontSize: 14, color: "#6b7280" }}>
-                          Need help creating your profile or connecting with supporters? Check our <Link to="/faq" style={{ color: "#418BCA", textDecoration: "underline" }}>FAQ section</Link> for quick answers.
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
-                      <MdFavorite style={{ color: "#F26A27", fontSize: 20, marginTop: 4 }} />
-                      <Box>
-                        <Typography sx={{ fontWeight: 600, color: "#0C3042" }}>For Supporters</Typography>
-                        <Typography sx={{ fontSize: 14, color: "#6b7280" }}>
-                          Questions about supporting athletes or making donations? Visit our <Link style={{ color: "#F26A27", textDecoration: "underline" }}>support page</Link> for guidance.
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
-                      <MdChat style={{ color: "#0C3042", fontSize: 20, marginTop: 4 }} />
-                      <Box>
-                        <Typography sx={{ fontWeight: 600, color: "#0C3042" }}>Technical Issues</Typography>
-                        <Typography sx={{ fontSize: 14, color: "#6b7280" }}>
-                          Experiencing technical problems? Email us directly at <a href="mailto:support@uinsports.com" style={{ color: "#0C3042", textDecoration: "underline" }}>support@uinsports.com</a>
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </CardContent>
-                </Card>
-
-                <Card className="clean-card">
-                    <Typography sx={{ fontWeight: 600, padding: 2, fontSize: "20px" }}>Frequently Asked Questions</Typography>
-                  <CardContent sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-                    <Box>
-                      <Typography sx={{ fontWeight: 600, color: "#0C3042", mb: 0.5 }}>How quickly will you respond?</Typography>
-                      <Typography sx={{ fontSize: 14, color: "#6b7280" }}>
-                        We typically respond to all inquiries within 24 hours during business days. For urgent matters, please call us directly.
-                      </Typography>
-                    </Box>
-                    <Box>
-                      <Typography sx={{ fontWeight: 600, color: "#0C3042", mb: 0.5 }}>Can I schedule a call?</Typography>
-                      <Typography sx={{ fontSize: 14, color: "#6b7280" }}>
-                        Mention in your message that you'd like to schedule a call, and we'll send you our calendar link to book a convenient time.
-                      </Typography>
-                    </Box>
-                    <Box>
-                      <Typography sx={{ fontWeight: 600, color: "#0C3042", mb: 0.5 }}>Do you offer partnerships?</Typography>
-                      <Typography sx={{ fontSize: 14, color: "#6b7280" }}>
-                        Yes! We're always interested in partnerships that benefit our athlete community. Select "Partnership" in the category above to get started.
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </Card>
+                <Typography sx={{ fontSize: '1.2rem', color: 'var(--gray-500)', maxWidth: 500 }}>
+                  Whether you're an athlete, organizer, or brand, we're ready to help you level up.
+                </Typography>
               </Box>
-            </Grid>
+
+              {submitSuccess ? (
+                <Paper sx={{ p: 4, bgcolor: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '16px', textAlign: 'center' }}>
+                  <Box sx={{ width: 60, height: 60, bgcolor: '#22c55e', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', mx: 'auto', mb: 2 }}>
+                    <MdCheckCircle color="white" size={32} />
+                  </Box>
+                  <Typography variant="h5" sx={{ fontWeight: 700, color: '#15803d', mb: 1 }}>Message Sent!</Typography>
+                  <Typography sx={{ color: '#166534' }}>We'll be in touch shortly.</Typography>
+                </Paper>
+              ) : (
+                <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 3, maxWidth: 600 }}>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={6}>
+                      <TextField
+                        fullWidth label="Name" name="name" required value={formData.name} onChange={handleInputChange}
+                        variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <TextField
+                        fullWidth label="Email" name="email" type="email" required value={formData.email} onChange={handleInputChange}
+                        variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <Select
+                    fullWidth displayEmpty value={formData.category} onChange={handleSelectChange} required
+                    sx={{ borderRadius: '12px' }}
+                  >
+                    <MenuItem value="" disabled>Select a Topic</MenuItem>
+                    <MenuItem value="general">General Inquiry</MenuItem>
+                    <MenuItem value="athlete">Support for Athletes</MenuItem>
+                    <MenuItem value="organizer">For Organizers</MenuItem>
+                    <MenuItem value="partnership">Partnerships</MenuItem>
+                  </Select>
+
+                  <TextField
+                    fullWidth label="Message" name="message" multiline rows={4} required value={formData.message} onChange={handleInputChange}
+                    variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
+                  />
+
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      bgcolor: 'var(--gray-900)',
+                      color: 'white',
+                      py: 2,
+                      borderRadius: '50px',
+                      fontSize: '1.1rem',
+                      fontWeight: 700,
+                      textTransform: 'none',
+                      '&:hover': { bgcolor: 'black' }
+                    }}
+                  >
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </Button>
+                </Box>
+              )}
+            </motion.div>
           </Grid>
-        </Container>
-      </Box>
+
+          {/* RIGHT: Visuals & Info */}
+          <Grid item xs={12} lg={6} sx={{ position: 'relative', bgcolor: 'var(--uinsports-navy)', color: 'white', p: { xs: 4, md: 10 }, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0.1, background: 'radial-gradient(circle at 100% 0%, var(--uinsports-orange), transparent 50%)' }} />
+
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
+              <Box sx={{ position: 'relative', zIndex: 1 }}>
+                <Typography variant="h4" sx={{ fontWeight: 800, mb: 6 }}>Contact Info</Typography>
+
+                <Grid container spacing={4}>
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+                      <Box sx={{ width: 48, height: 48, borderRadius: '12px', bgcolor: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <MdEmail size={24} color="#FDBA74" />
+                      </Box>
+                      <Box>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>Email</Typography>
+                        <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>hello@youinsports.com</Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+                      <Box sx={{ width: 48, height: 48, borderRadius: '12px', bgcolor: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <MdPhone size={24} color="#FDBA74" />
+                      </Box>
+                      <Box>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>Phone</Typography>
+                        <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>+1 (555) 123-4567</Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+                      <Box sx={{ width: 48, height: 48, borderRadius: '12px', bgcolor: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <MdLocationOn size={24} color="#FDBA74" />
+                      </Box>
+                      <Box>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>Office</Typography>
+                        <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>123 Sports Ave, AC 90210</Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+                      <Box sx={{ width: 48, height: 48, borderRadius: '12px', bgcolor: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <MdAccessTime size={24} color="#FDBA74" />
+                      </Box>
+                      <Box>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>Hours</Typography>
+                        <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>Mon-Fri, 9am - 6pm PST</Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                </Grid>
+
+                <Box sx={{ mt: 8, p: 4, borderRadius: '24px', bgcolor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>FAQ</Typography>
+                  <Accordion sx={{ bgcolor: 'transparent', boxShadow: 'none', color: 'white', '&:before': { display: 'none' }, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                    <AccordionSummary expandIcon={<MdExpandMore color="white" />} sx={{ px: 0 }}>
+                      <Typography sx={{ fontWeight: 600 }}>What is current response time?</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ px: 0 }}>
+                      <Typography sx={{ color: 'rgba(255,255,255,0.6)' }}>Usually within 24 hours.</Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion sx={{ bgcolor: 'transparent', boxShadow: 'none', color: 'white', '&:before': { display: 'none' } }}>
+                    <AccordionSummary expandIcon={<MdExpandMore color="white" />} sx={{ px: 0 }}>
+                      <Typography sx={{ fontWeight: 600 }}>Where are you located?</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ px: 0 }}>
+                      <Typography sx={{ color: 'rgba(255,255,255,0.6)' }}>We are a remote-first company with HQ in Sports City.</Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                </Box>
+
+              </Box>
+            </motion.div>
+          </Grid>
+        </Grid>
+      </Container>
     </Box>
   )
 }
+import { MdCheckCircle } from "react-icons/md";

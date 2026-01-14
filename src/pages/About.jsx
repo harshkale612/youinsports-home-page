@@ -3,402 +3,250 @@ import {
   Box,
   Container,
   Typography,
-  Card,
-  CardContent,
   Grid,
   Button,
+  useTheme,
+  useMediaQuery,
+  Avatar,
+  Paper
 } from '@mui/material';
-import {
-  MdAutoAwesome as AutoAwesome,
-  MdPeople as People,
-  MdEmojiEvents as EmojiEvents,
-  MdGroups as Groups,
-  MdGpsFixed as GpsFixed,
-  MdRocket as Rocket,
-} from 'react-icons/md';
-import { MdElectricBolt as ElectricBoltIcon } from 'react-icons/md';
+import { motion } from 'framer-motion';
 import SeoSchema from '../components/SeoSchema';
-import { FaArrowsDownToPeople } from "react-icons/fa6";
-import { BsAward } from "react-icons/bs";
-import { LuUsers } from "react-icons/lu";
-import { GoZap } from "react-icons/go";
-import { GoTrophy } from "react-icons/go";
-import { IoTrendingUp } from "react-icons/io5";
-
-const iconsMap = {
-    FaArrowsDownToPeople: FaArrowsDownToPeople,
-    BsAward: BsAward,
-    LuUsers: LuUsers,
-    GoZap: GoZap,
-    GoTrophy: GoTrophy,
-    IoTrendingUp: IoTrendingUp,
-}
-
+import { MdAutoAwesome } from 'react-icons/md';
+import { BsQuote } from 'react-icons/bs';
 
 const About = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  // Animation variants
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
   return (
-    <Box>
+    <Box sx={{ overflowX: 'hidden', bgcolor: 'white' }}>
       <SeoSchema
         type="WebPage"
         name="About You In Sports"
-        description="Learn about You In Sportsand our mission to support amateur athletes"
-        url="https://You In Sports.com/about"
+        description="Learn about You In Sports and our mission to support amateur athletes"
+        url="https://youinsports.com/about"
       />
 
-      {/* About Hero Section */}
-      <Box
-        sx={{
-          py: { xs: 8, md: 12 },
-          background: 'linear-gradient(135deg, #0C3042 0%, #418BCA 100%)',
-          color: 'white',
-        }}
-      >
+      {/* --- HERO SECTION (Editorial Style) --- */}
+      <Box sx={{ py: { xs: 8, md: 15 }, bgcolor: 'var(--gray-50)' }}>
         <Container maxWidth="lg">
-          <Grid container spacing={6} alignItems="center">
-            <Grid item xs={12} lg={6}>
-              <Box className="floating-animation">
-                <Box
-                  sx={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    px: 3,
-                    py: 1,
-                    borderRadius: '9999px',
-                    fontSize: '14px',
-                    fontWeight: 700,
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                    color: 'white',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    mb: 2,
-                  }}
-                >
-                  <AutoAwesome style={{ marginRight: 5, fontSize: '16px' }} />
-                  Our Story
-                </Box>
-                <Typography
-                  variant="h1"
-                  sx={{
-                    fontWeight: 700,
-                    fontSize: { xs: '3rem', md: '4rem', lg: '5rem' },
-                    lineHeight: 1.1,
-                    mb: 2,
-                  }}
-                >
-                  About <Box component="span" sx={{ color: '#fde047' }}>You In Sports</Box>
-                </Typography>
-                <Typography
-                  sx={{
-                    color: 'rgba(255, 255, 255, 0.9)',
-                    maxWidth: '600px',
-                    fontSize: '1.125rem',
-                  }}
-                >
-                  Bringing the power of networking to support amateur athletes at every stage of their journey. We're
-                  here to make dreams happen!
-                </Typography>
+          <motion.div initial="hidden" animate="visible" variants={fadeIn}>
+            <Box sx={{ maxWidth: '900px', mx: 'auto', textAlign: 'center' }}>
+              <Box
+                sx={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  px: 2,
+                  py: 0.5,
+                  borderRadius: '9999px',
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  backgroundColor: 'rgba(242, 106, 39, 0.1)',
+                  color: 'var(--uinsports-orange)',
+                  mb: 4,
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px'
+                }}
+              >
+                Our Story
               </Box>
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Box
-                  component="img"
-                  src="/placeholder.svg?height=400&width=600&text=Team+You In Sports"
-                  alt="Team You In Sports"
-                  sx={{
-                    width: '100%',
-                    height: '400px',
-                    borderRadius: '12px',
-                    objectFit: 'cover',
-                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                  }}
-                />
-              </Box>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
-
-      {/* Our Mission Section */}
-      <Box sx={{ py: { xs: 8, md: 12 }, backgroundColor: '#f9fafb' }}>
-        <Container maxWidth="lg">
-          <Box sx={{ maxWidth: '768px', mx: 'auto' }}>
-            <Typography
-              variant="h2"
-              sx={{
-                fontWeight: 700,
-                color: '#0C3042',
-                mb: 2,
-                fontSize: { xs: '2rem', md: '2.5rem' },
-              }}
-            >
-              Our <Box component="span" sx={{ background: 'linear-gradient(135deg, #F26A27, #418BCA)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Mission</Box>
-            </Typography>
-            <Typography
-              sx={{
-                color: '#6b7280',
-                fontSize: '1.125rem',
-                mb: 4,
-              }}
-            >
-              Empowering amateur athletes through the power of networking and community support. No cap! 
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              <Typography sx={{ color: '#374151', lineHeight: 1.7, fontSize: '1.125rem' }}>
-                At You In Sports, we believe that every athlete deserves the opportunity to reach their full potential,
-                regardless of their background or resources. Our platform is designed to bridge the gap between amateur
-                athletes and the support they need to succeed. It's giving main character energy! 
+              <Typography
+                className="text-display"
+                sx={{
+                  color: 'var(--gray-900)',
+                  mb: 4,
+                  fontWeight: 800,
+                  fontSize: { xs: '3rem', md: '5rem' } // Override for bigger impact
+                }}
+              >
+                Empowering the <span className="text-gradient-primary">Underdogs</span>.
               </Typography>
-              <Typography sx={{ color: '#374151', lineHeight: 1.7, fontSize: '1.125rem' }}>
-                Through our innovative sports CV system, we provide athletes with a professional way to showcase their
-                skills, achievements, and potential. This digital portfolio becomes their passport to opportunities,
-                connecting them with coaches, sponsors, and supporters who can help them advance their careers. That's
-                the glow-up we're talking about! 
-              </Typography>
-              <Typography sx={{ color: '#374151', lineHeight: 1.7, fontSize: '1.125rem' }}>
-                We're more than just a platform we're a community of athletes, coaches, sponsors, and sports
-                enthusiasts who share a passion for sports and a commitment to supporting athletic talent at all levels.
-                We're all about that squad energy! 
+              <Typography sx={{ fontSize: { xs: '1.25rem', md: '1.5rem' }, color: 'var(--gray-500)', lineHeight: 1.6 }}>
+                We built this platform for the dreamers, the grinders, and the believers. Because every athlete deserves a shot at greatness, no matter where they start.
               </Typography>
             </Box>
-          </Box>
+          </motion.div>
         </Container>
       </Box>
 
-      {/* How We Support Athletes Section */}
-      <Box sx={{ py: { xs: 8, md: 12 } }}>
-        <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography
-              variant="h2"
-              sx={{
-                fontWeight: 700,
-                color: '#0C3042',
-                mb: 3,
-                fontSize: { xs: '2rem', md: '2.5rem' },
-              }}
+      {/* --- IMAGE + MISSION GRID --- */}
+      <Container maxWidth="lg" sx={{ py: 10 }}>
+        <Grid container spacing={8} alignItems="center">
+          <Grid item xs={12} md={6}>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
             >
-              How We <Box component="span" sx={{ background: 'linear-gradient(135deg, #F26A27, #418BCA)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Empower Athletes</Box>
-            </Typography>
-            <Typography
-              sx={{
-                color: '#6b7280',
-                maxWidth: '768px',
-                mx: 'auto',
-                fontSize: '1.125rem',
-              }}
-            >
-              Our comprehensive approach to athlete development and support hits different! 
-            </Typography>
-          </Box>
-
-          <Grid container spacing={4} sx={{ maxWidth: '1792px', mx: 'auto' }}>
-                      {[
-                        {
-                          icon: 'FaArrowsDownToPeople',
-                          title: 'Sports Networking',
-                          description: 'Connect with coaches, sponsors, and fellow athletes worldwide. Build meaningful relationships that advance your career.',
-                          color: '#418BCA',
-                        },
-                        {
-                          icon: 'BsAward',
-                          title: 'Professional Sports CV',
-                          description: 'Create a stunning digital portfolio showcasing your achievements, skills, and potential.',
-                          color: '#F26A27',
-                        },
-                        {
-                          icon: 'LuUsers',
-                          title: 'Community Support',
-                          description: 'Join sport-specific communities where athletes share experiences, advice, and support each other\'s journeys.',
-                          color: '#0C3042',
-                        },
-                        {
-                          icon: 'GoZap',
-                          title: 'Funding Platform',
-                          description: 'Get financial support for coaching, travel, equipment, and more from your supporters and sponsors.',
-                          color: '#F26A27',
-                          badge: 'Coming Soon',
-                        },
-                        {
-                          icon: 'GoTrophy',
-                          title: 'Achievement Tracking',
-                          description: 'Document and showcase your sports achievements, medals, and records in one comprehensive platform.',
-                          color: '#418BCA',
-                        },
-                        {
-                          icon: 'IoTrendingUp',
-                          title: 'Performance Analytics',
-                          description: 'Track your progress with detailed analytics and AI-powered insights for continuous improvement.',
-                          color: '#0C3042',
-                          badge: 'Coming Soon',
-                        },
-                      ].map((feature, index) => {
-                        const IconComponent = iconsMap[feature.icon]
-                        return (
-                          <Grid item xs={10} md={6} lg={4} key={index}>
-                            <Card
-                              sx={{
-                                backgroundColor: 'white',
-                                border: '1px solid #e5e7eb',
-                                borderRadius: '12px',
-                                boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
-                                textAlign: 'center',
-                                p: 3,
-                                transition: 'transform 0.3s ease',
-                                '&:hover': { transform: 'translateY(-4px)' },
-                              }}
-                            >
-                              {feature.badge && (
-                                <Box
-                                  sx={{
-                                    position: 'absolute',
-                                    top: 16,
-                                    right: 16,
-                                    px: 2,
-                                    py: 0.5,
-                                    borderRadius: '9999px',
-                                    fontSize: '12px',
-                                    fontWeight: 500,
-                                    backgroundColor: 'rgba(242, 106, 39, 0.1)',
-                                    color: '#F26A27',
-                                    border: '1px solid rgba(242, 106, 39, 0.2)',
-                                  }}
-                                >
-                                  {feature.badge}
-                                </Box>
-                              )}
-          
-                              <Box
-                                sx={{
-                                  width: '64px',
-                                  height: '64px',
-                                  mx: 'auto',
-                                  mb: 3,
-                                  borderRadius: '50%',
-                                  backgroundColor: `${feature.color}1A`,
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                }}
-                              >
-                                <IconComponent style={{ color: feature.color, fontSize: '32px' }} />
-                              </Box>
-          
-                              <Typography variant="h5" sx={{ fontWeight: 600, color: '#0C3042', mb: 2 }}>
-                                {feature.title}
-                              </Typography>
-                              <Typography sx={{ color: '#6b7280' }}>
-                                {feature.description}
-                              </Typography>
-                            </Card>
-                          </Grid>
-                        )
-                      })}
+              <Box
+                sx={{
+                  position: 'relative',
+                  height: { xs: 400, md: 600 },
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  boxShadow: '0 40px 80px rgba(0,0,0,0.1)'
+                }}
+              >
+                <Box
+                  component="img"
+                  src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=2070&auto=format&fit=crop"
+                  alt="Athletes training"
+                  sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <Box sx={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '50%',
+                  background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)'
+                }} />
+              </Box>
+            </motion.div>
           </Grid>
-        </Container>
-      </Box>
+          <Grid item xs={12} md={6}>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+            >
+              <Box sx={{ pr: { md: 4 } }}>
+                <motion.div variants={fadeIn}>
+                  <Typography variant="h3" sx={{ fontWeight: 800, mb: 3, color: 'var(--gray-900)' }}>
+                    The Mission
+                  </Typography>
+                </motion.div>
 
-      {/* Our Impact Section */}
-      <Box sx={{ py: { xs: 8, md: 12 }, backgroundColor: '#f9fafb' }}>
+                <motion.div variants={fadeIn}>
+                  <Typography sx={{ fontSize: '1.125rem', color: 'var(--gray-600)', mb: 3, lineHeight: 1.8 }}>
+                    At You In Sports, we noticed a gap. Millions of talented athletes fly under the radar simply because they lack connections. We're here to fix that.
+                  </Typography>
+                </motion.div>
+
+                <motion.div variants={fadeIn}>
+                  <Typography sx={{ fontSize: '1.125rem', color: 'var(--gray-600)', mb: 4, lineHeight: 1.8 }}>
+                    Our platform democratizes sports access. Whether you need sponsorship, coaching, or just a community that gets it, we provide the tools to build your legacy.
+                  </Typography>
+                </motion.div>
+
+                <motion.div variants={fadeIn}>
+                  <Box sx={{ borderLeft: '4px solid var(--uinsports-orange)', pl: 3, py: 1 }}>
+                    <Typography variant="h5" sx={{ fontWeight: 600, color: 'var(--gray-800)', fontStyle: 'italic' }}>
+                      "It's not just about stats; it's about the story behind every score."
+                    </Typography>
+                  </Box>
+                </motion.div>
+              </Box>
+            </motion.div>
+          </Grid>
+        </Grid>
+      </Container>
+
+
+      {/* --- STATS STRIP --- */}
+      <Box sx={{ bgcolor: 'var(--uinsports-navy)', color: 'white', py: 10 }}>
         <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography
-              variant="h2"
-              sx={{
-                fontWeight: 700,
-                color: '#0C3042',
-                mb: 3,
-                fontSize: { xs: '2rem', md: '2.5rem' },
-              }}
-            >
-              Our <Box component="span" sx={{ background: 'linear-gradient(135deg, #F26A27, #418BCA)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Impact</Box>
-            </Typography>
-            <Typography
-              sx={{
-                color: '#6b7280',
-                maxWidth: '768px',
-                mx: 'auto',
-                fontSize: '1.125rem',
-              }}
-            >
-              How You In Sportsis changing the landscape for amateur athletes. The numbers don't lie!
-            </Typography>
-          </Box>
-
-          <Grid container spacing={4} sx={{ maxWidth: '1280px', mx: 'auto', mb: 8 }}>
+          <MotionGrid container spacing={4} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} sx={{ display: 'flex' }}>
             {[
-              { value: '5,000+', label: 'Athletes supported 🏃‍♀️' },
-              { value: '$2M+', label: 'Funds raised for athletes 💰' },
-              { value: '30+', label: 'Sports communities 🏆' },
-              { value: '500+', label: 'Success stories 📖' },
-            ].map((impact, index) => (
-              <Grid item xs={10} sm={6} md={3} key={index}>
-                <Card
-                  sx={{
-                    backgroundColor: 'white',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '12px',
-                    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-                    p: 3,
-                    textAlign: 'center',
-                    transition: 'transform 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-4px)',
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      fontWeight: 700,
-                      background: 'linear-gradient(135deg, #F26A27, #418BCA)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                      mb: 1,
-                    }}
-                  >
-                    {impact.value}
-                  </Typography>
-                  <Typography sx={{ color: '#6b7280' }}>
-                    {impact.label}
-                  </Typography>
-                </Card>
+              { label: "Community", value: "Global", sub: "Connecting athletes worldwide" },
+              { label: "Growth", value: "300%", sub: "Year-over-year platform growth" },
+              { label: "Impact", value: "$2M+", sub: "Direct funding to athletes" }
+            ].map((stat, i) => (
+              <Grid item xs={12} md={4} key={i}>
+                <motion.div variants={fadeIn}>
+                  <Box sx={{ textAlign: 'center', p: 2 }}>
+                    <Typography sx={{ fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '2px', color: 'rgba(255,255,255,0.5)', mb: 1 }}>{stat.label}</Typography>
+                    <Typography variant="h2" sx={{ fontWeight: 800, mb: 1 }}>{stat.value}</Typography>
+                    <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>{stat.sub}</Typography>
+                  </Box>
+                </motion.div>
               </Grid>
             ))}
-          </Grid>
-
-          <Card
-            sx={{
-              backgroundColor: 'white',
-              border: '1px solid #e5e7eb',
-              borderRadius: '12px',
-              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-              p: 4,
-              maxWidth: '768px',
-              mx: 'auto',
-              textAlign: 'center',
-            }}
-          >
-            <Typography
-              sx={{
-                color: '#374151',
-                fontStyle: 'italic',
-                fontSize: '1.125rem',
-                mb: 2,
-              }}
-            >
-              You In Sports has revolutionized how amateur athletes connect with opportunities and support. By bringing the
-              power of networking to sports, we're helping athletes at all levels achieve their dreams. This platform is
-              literally life-changing!
-            </Typography>
-            <Typography sx={{ fontWeight: 700, color: '#0C3042' }}>
-              - Roshan Ingole, Founder & CEO
-            </Typography>
-          </Card>
+          </MotionGrid>
         </Container>
       </Box>
+
+      {/* --- TEAM SECTION (Clean Cards) --- */}
+      <Box sx={{ py: 12 }}>
+        <Container maxWidth="lg">
+          <Typography variant="h3" sx={{ textAlign: 'center', fontWeight: 800, mb: 8 }}>
+            Meet the Team
+          </Typography>
+          <Grid container spacing={4} justifyContent="center">
+            <Grid item xs={12} md={6} lg={4}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 4,
+                  border: '1px solid var(--gray-200)',
+                  borderRadius: '24px',
+                  textAlign: 'center',
+                  transition: 'transform 0.3s ease',
+                  '&:hover': { transform: 'translateY(-8px)' }
+                }}
+              >
+                <Avatar
+                  sx={{ width: 100, height: 100, mx: 'auto', mb: 3, bgcolor: 'var(--uinsports-blue)' }}
+                >
+                  RI
+                </Avatar>
+                <Typography variant="h5" sx={{ fontWeight: 700 }}>Roshan Ingole</Typography>
+                <Typography sx={{ color: 'var(--uinsports-orange)', fontWeight: 600, mb: 2 }}>Founder & CEO</Typography>
+                <Typography sx={{ color: 'var(--gray-500)', fontSize: '0.95rem' }}>
+                  Passionate about leveling the playing field for athletes everywhere.
+                </Typography>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* --- BIG CTA --- */}
+      <Container maxWidth="md" sx={{ py: 10, textAlign: 'center' }}>
+        <Typography variant="h2" sx={{ fontWeight: 800, mb: 4 }}>
+          Ready to join the movement?
+        </Typography>
+        <Button
+          variant="contained"
+          size="large"
+          sx={{
+            bgcolor: 'var(--gray-900)',
+            color: 'white',
+            px: 5,
+            py: 2,
+            borderRadius: '50px',
+            fontSize: '1.1rem',
+            fontWeight: 700,
+            '&:hover': { bgcolor: 'black' }
+          }}
+        >
+          Get Started Now
+        </Button>
+      </Container>
+
     </Box>
   );
 };
+// Helper for Motion Grid
+const MotionGrid = motion(Grid);
 
 export default About;

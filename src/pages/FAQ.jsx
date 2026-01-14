@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import SeoSchema from "../components/SeoSchema"
 import {
@@ -7,287 +7,181 @@ import {
   AccordionDetails,
   Box,
   Button,
-  Card,
-  CardContent,
-  Chip,
   Container,
   Grid,
   TextField,
   Typography,
+  Paper,
+  Chip,
+  InputAdornment
 } from "@mui/material"
-import { MdHelpOutline, MdExpandMore, MdSearch, MdMessage, MdPhone, MdMail } from "react-icons/md"
+import { MdExpandMore, MdSearch, MdMessage, MdEmail, MdHelpOutline } from "react-icons/md"
+import { motion } from "framer-motion"
 
 export default function FAQ() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const faqCategories = [
     {
       category: "Getting Started",
       questions: [
-        {
-          id: "getting-started-1",
-          question: "How do I create an account on You In Sports?",
-          answer:
-            "Creating an account is simple! Click the 'Sign Up' button, choose your account type (Athlete, Coach, or Organizer), fill in your basic information, and verify your email. You'll be ready to start building your sports profile immediately.", // Placeholder video ID
-          tags: ["account", "signup", "registration"],
-        },
-        {
-          id: "getting-started-2",
-          question: "What types of accounts are available?",
-          answer:
-            "You In Sports offers three main account types: Athlete accounts for sports professionals seeking support and opportunities, Coach accounts for mentors and trainers, and Organizer accounts for event planners and sports organizations. Each account type has specialized features tailored to your needs.",
-          tags: ["account types", "features"],
-        },
-        {
-          id: "getting-started-3",
-          question: "How do I complete my profile?",
-          answer:
-            "After signing up, navigate to your profile settings. Add your sports background, achievements, photos, and goals. The more complete your profile, the better we can match you with opportunities and supporters. Our profile completion guide walks you through each step.",
-          tags: ["profile", "setup", "completion"],
-        },
-      ],
+        { id: "gs-1", q: "How do I create an account?", a: "Click 'Sign Up', choose your role (Athlete, Coach, Organizer), and verify your email to get started." },
+        { id: "gs-2", q: "Is it free to join?", a: "Yes! Basic membership is free for everyone. Premium features are available for power users." },
+      ]
     },
     {
       category: "For Athletes",
       questions: [
-        {
-          id: "athletes-1",
-          question: "How can I get financial support for my sports career?",
-          answer:
-            "UinSports connects athletes with supporters through our funding platform. Create compelling content about your journey, set clear funding goals, and engage with your community. Supporters can contribute to specific needs like equipment, training, or competition travel.",
-          tags: ["funding", "support", "financial"],
-        },
-        {
-          id: "athletes-2",
-          question: "How do I track my performance and progress?",
-          answer:
-            "Our performance tracker allows you to log training sessions, competition results, and personal bests. You can visualize your progress over time, share achievements with supporters, and use data to improve your training strategy.",
-          tags: ["performance", "tracking", "analytics"],
-        },
-        {
-          id: "athletes-3",
-          question: "Can I connect with coaches and mentors?",
-          answer:
-            "Yes! Browse our coach directory, read reviews, and connect with certified professionals in your sport. Many coaches offer both in-person and virtual training sessions. You can also join group training programs and workshops.",
-          tags: ["coaches", "mentors", "training"],
-        },
-      ],
-    },
-    {
-      category: "For Coaches",
-      questions: [
-        {
-          id: "coaches-1",
-          question: "How can I offer my coaching services?",
-          answer:
-            "Create a detailed coach profile showcasing your experience, certifications, and coaching philosophy. Set your availability, pricing, and preferred training methods. Athletes can then book sessions directly through the platform.",
-          tags: ["coaching", "services", "booking"],
-        },
-        {
-          id: "coaches-2",
-          question: "What tools are available for managing athletes?",
-          answer:
-            "Our coach dashboard includes athlete progress tracking, session scheduling, performance analytics, and communication tools. You can create custom training plans, monitor athlete development, and provide feedback efficiently.",
-          tags: ["management", "tools", "dashboard"],
-        },
-      ],
+        { id: "at-1", q: "How do I get sponsored?", a: "Build your profile, post highlights, and use our matching tool to connect with verified sponsors." },
+        { id: "at-2", q: "Can I track my stats?", a: "Absolutely. Use the Performance Tracker to log training sessions and match results." },
+      ]
     },
     {
       category: "For Organizers",
       questions: [
-        {
-          id: "organizers-1",
-          question: "How do I create and promote sports events?",
-          answer:
-            "Use our event creation tool to set up competitions, tournaments, or training camps. Add event details, registration requirements, and promotional materials. Our platform helps you reach the right audience and manage registrations seamlessly.",
-          tags: ["events", "promotion", "organization"],
-        },
-        {
-          id: "organizers-2",
-          question: "How can I find sponsors for my events?",
-          answer:
-            "Our sponsor matching system connects event organizers with potential sponsors based on event type, audience, and sponsor preferences. Create compelling sponsorship packages and track sponsor engagement through our analytics dashboard.",
-          tags: ["sponsors", "funding", "partnerships"],
-        },
-      ],
-    },
-    {
-      category: "Technical Support",
-      questions: [
-        {
-          id: "technical-1",
-          question: "I'm having trouble uploading photos or videos",
-          answer:
-            "Ensure your files are in supported formats (JPG, PNG for photos; MP4, MOV for videos) and under our size limits (10MB for photos, 100MB for videos). Clear your browser cache and try again. If issues persist, contact our technical support team.",
-          tags: ["upload", "technical", "media"],
-        },
-        {
-          id: "technical-2",
-          question: "How do I reset my password?",
-          answer:
-            "Click 'Forgot Password' on the login page, enter your email address, and check your inbox for reset instructions. If you don't receive the email within 10 minutes, check your spam folder or contact support.",
-          tags: ["password", "reset", "login"],
-        },
-        {
-          id: "technical-3",
-          question: "Is my personal information secure?",
-          answer:
-            "We use industry-standard encryption and security measures to protect your data. Your personal information is never shared without your consent, and you have full control over your privacy settings.",
-          tags: ["security", "privacy", "data"],
-        },
-      ],
-    },
-  ]
+        { id: "or-1", q: "How do I list an event?", a: "Go to your dashboard, select 'Create Event', and fill in the details. It will be published to our global calendar." },
+        { id: "or-2", q: "What are the fees?", a: "Listing is free. We take a small commission only on paid ticket sales." },
+      ]
+    }
+  ];
 
-  // const renderYouTube = (videoId) => {
-  //   const src = `https://www.youtube.com/embed/${videoId}`
-  //   return (
-  //     <Box sx={{ position: "relative", paddingTop: "56.25%", borderRadius: 1, overflow: "hidden" }}>
-  //       <Box component="iframe" src={src} title="FAQ video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }} />
-  //     </Box>
-  //   )
-  // }
+  const filteredCategories = faqCategories.map(cat => ({
+    ...cat,
+    questions: cat.questions.filter(q =>
+      q.q.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      q.a.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  })).filter(cat => cat.questions.length > 0);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <Box sx={{ bgcolor: 'var(--gray-50)', minHeight: '100vh' }}>
       <SeoSchema
         type="WebPage"
-        name="Frequently Asked Questions - You In Sports"
-        description="Find answers to common questions about You In Sports platform, features, and services"
-        url="https://uinsports.com/faq"
+        name="Help Center | You In Sports"
+        description="Frequently asked questions and support."
+        url="https://youinsports.com/faq"
       />
-      <Box sx={{ width: "100%", py: { xs: 6, md: 8 }, background: "linear-gradient(to bottom, rgba(65,139,202,0.05), #fff)" }}>
-        <Container maxWidth="lg">
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 2 }}>
-            <Box sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 64, height: 64, borderRadius: "9999px", backgroundColor: "rgba(65,139,202,0.1)", mb: 1 }}>
-              <MdHelpOutline style={{ fontSize: 32, color: "#418BCA" }} />
-            </Box>
-            <Typography variant="h2" sx={{ fontWeight: 700, fontSize: { xs: 28, sm: 34, md: 40 } }}>
-              Frequently Asked <Box component="span" sx={{ color: "#418BCA" }}>Questions</Box>
-            </Typography>
-            <Typography sx={{ maxWidth: 700, color: "#6b7280", fontSize: { md: 18 } }}>
-              Find quick answers to common questions about You In Sports. Can't find what you're looking for?
-              <Box component="span" sx={{ ml: 1 }}>
-                <Link to="/contact" style={{ color: "#418BCA", textDecoration: "underline" }}>Contact our support team</Link>.
-              </Box>
-            </Typography>
-          </Box>
+
+      {/* --- HERO --- */}
+      <Box sx={{ py: 10, bgcolor: 'var(--uinsports-navy)', color: 'white', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <Box sx={{ position: 'absolute', top: -100, right: -100, width: 400, height: 400, bgcolor: 'var(--uinsports-blue)', borderRadius: '50%', filter: 'blur(100px)', opacity: 0.2 }} />
+        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <Typography className="text-display" sx={{ mb: 3, fontWeight: 800 }}>How can we help?</Typography>
+            <Paper
+              elevation={0}
+              sx={{
+                p: 1,
+                display: 'flex',
+                alignItems: 'center',
+                borderRadius: '50px',
+                bgcolor: 'white',
+                maxWidth: 600,
+                mx: 'auto',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
+              }}
+            >
+              <Box sx={{ p: 1.5, display: 'flex' }}><MdSearch size={24} color="#9CA3AF" /></Box>
+              <TextField
+                fullWidth
+                placeholder="Search questions, topics..."
+                variant="standard"
+                InputProps={{ disableUnderline: true }}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                sx={{ px: 1 }}
+              />
+              <Button variant="contained" sx={{ borderRadius: '50px', px: 4, bgcolor: 'var(--uinsports-orange)', '&:hover': { bgcolor: '#d95d22' } }}>Search</Button>
+            </Paper>
+          </motion.div>
         </Container>
       </Box>
 
-      <Box sx={{ width: "100%", py: 3, borderTop: "1px solid #eee", borderBottom: "1px solid #eee" }}>
-        <Container maxWidth="lg">
-          <Box sx={{ maxWidth: 480, mx: "auto", position: "relative" }}>
-            {/* <MdSearch style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#9ca3af" }} /> */}
-            <TextField fullWidth placeholder="Search FAQ..." variant="outlined" size="small" sx={{ pl: 4 }} />
-          </Box>
-        </Container>
-      </Box>
-
-      <Box sx={{ width: "100%", py: 6 }}>
-        <Container maxWidth="lg">
-          <Box sx={{ maxWidth: 960, mx: "auto", display: "flex", flexDirection: "column", gap: 4 }}>
-            {faqCategories.map((category) => (
-              <Box key={category.category}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
-                  <Typography variant="h5" sx={{ fontWeight: 700 }}>{category.category}</Typography>
-                  <Chip label={`${category.questions.length} questions`} sx={{ backgroundColor: "rgba(65,139,202,0.1)", color: "#418BCA" }} />
-                </Box>
-
-                <Box>
-                  {category.questions.map((faq) => (
-                    <Card key={faq.id} className="clean-card clean-hover-lift" sx={{ mb: 2, borderRadius: 2, border: "1px solid #e5e7eb" }}>
-                      <Accordion disableGutters>
-                        <AccordionSummary expandIcon={<MdExpandMore />}>
-                          <Typography sx={{ fontWeight: 600 }}>{faq.question}</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                            <Typography sx={{ color: "#6b7280", lineHeight: 1.75 }}>{faq.answer}</Typography>
-                            {/* <Box sx={{ backgroundColor: "#f3f4f6", p: 2, borderRadius: 1 }}>
-                              <Typography sx={{ fontWeight: 600, mb: 1, fontSize: 12, color: "#6b7280", textTransform: "uppercase", letterSpacing: 0.6 }}>Video Tutorial</Typography>
-                              {renderYouTube(faq.videoId)}
-                            </Box> */}
-                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                              {faq.tags.map((tag) => (
-                                <Chip key={tag} variant="outlined" label={tag} sx={{ borderColor: "rgba(65,139,202,0.2)", color: "#418BCA" }} />
-                              ))}
-                            </Box>
-                          </Box>
-                        </AccordionDetails>
-                      </Accordion>
-                    </Card>
-                  ))}
-                </Box>
-              </Box>
+      {/* --- FAQ LIST --- */}
+      <Container maxWidth="md" sx={{ py: 10 }}>
+        {filteredCategories.length > 0 ? filteredCategories.map((cat, i) => (
+          <Box key={i} sx={{ mb: 6 }}>
+            <Typography variant="h5" sx={{ fontWeight: 700, mb: 3, color: 'var(--gray-800)' }}>{cat.category}</Typography>
+            {cat.questions.map((q, j) => (
+              <Accordion
+                key={j}
+                sx={{
+                  mb: 2,
+                  borderRadius: '16px !important',
+                  boxShadow: 'none',
+                  border: '1px solid var(--gray-200)',
+                  '&:before': { display: 'none' },
+                  transition: 'all 0.2s',
+                  '&:hover': { borderColor: 'var(--uinsports-blue)', transform: 'translateY(-2px)' }
+                }}
+              >
+                <AccordionSummary expandIcon={<MdExpandMore color="var(--gray-400)" />}>
+                  <Typography sx={{ fontWeight: 600, color: 'var(--gray-900)' }}>{q.q}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography sx={{ color: 'var(--gray-600)', lineHeight: 1.6 }}>{q.a}</Typography>
+                </AccordionDetails>
+              </Accordion>
             ))}
           </Box>
-        </Container>
-      </Box>
-
-      <Box sx={{ width: "100%", py: 6, backgroundColor: "#f3f4f6" }}>
-        <Container maxWidth="lg">
-          <Box sx={{ maxWidth: 960, mx: "auto" }}>
-            <Box sx={{ textAlign: "center", mb: 3 }}>
-              <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>Still Need Help?</Typography>
-              <Typography sx={{ color: "#6b7280" }}>Our support team is here to help you succeed on your sports journey.</Typography>
-            </Box>
-
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={4}>
-                <Card className="clean-card clean-hover-lift">
-                  <CardContent sx={{ p: 3, textAlign: "center" }}>
-                    <Box sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 48, height: 48, borderRadius: "9999px", backgroundColor: "rgba(65,139,202,0.1)", mb: 1.5 }}>
-                      <MdMessage style={{ color: "#418BCA", fontSize: 24 }} />
-                    </Box>
-                    <Typography sx={{ fontWeight: 600, mb: 0.5 }}>Live Chat</Typography>
-                    <Typography sx={{ fontSize: 14, color: "#6b7280", mb: 1.5 }}>Get instant help from our support team</Typography>
-                    <Button 
-                      sx={{
-                      color: 'white',
-                      fontWeight: 600,
-                      px: 3,
-                      py: 1.5,
-                      borderRadius: '8px',
-                      backgroundColor: 'rgb(242 106 39 / var(--tw-bg-opacity, 1))',
-                      '&:hover': {
-                        backgroundColor: 'rgba(46, 150, 255, 0.976)',
-                      },
-                    }}
-                    >Start Chat</Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <Card className="clean-card clean-hover-lift">
-                  <CardContent sx={{ p: 3, textAlign: "center" }}>
-                    <Box sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 48, height: 48, borderRadius: "9999px", backgroundColor: "rgba(242,106,39,0.1)", mb: 1.5 }}>
-                      <MdMail style={{ color: "#F26A27", fontSize: 24 }} />
-                    </Box>
-                    <Typography sx={{ fontWeight: 600, mb: 0.5 }}>Email Support</Typography>
-                    <Typography sx={{ fontSize: 14, color: "#6b7280", mb: 1.5 }}>Send us a detailed message</Typography>
-                    <Link to="/contact" style={{ textDecoration: "none" }}>
-                      <Button variant="outlined">Send Email</Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <Card className="clean-card clean-hover-lift">
-                  <CardContent sx={{ p: 3, textAlign: "center" }}>
-                    <Box sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 48, height: 48, borderRadius: "9999px", backgroundColor: "rgba(65,139,202,0.1)", mb: 1.5 }}>
-                      <MdPhone style={{ color: "#418BCA", fontSize: 24 }} />
-                    </Box>
-                    <Typography sx={{ fontWeight: 600, mb: 0.5 }}>Phone Support</Typography>
-                    <Typography sx={{ fontSize: 14, color: "#6b7280", mb: 1.5 }}>Speak directly with our team</Typography>
-                    <Button variant="outlined">Call Now</Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
+        )) : (
+          <Box sx={{ textAlign: 'center', py: 10 }}>
+            <Typography variant="h6" sx={{ color: 'var(--gray-500)' }}>No results found for "{searchTerm}"</Typography>
           </Box>
+        )}
+      </Container>
+
+
+      {/* --- SUPPORT BOTTOM --- */}
+      <Box sx={{ bgcolor: 'white', py: 10, borderTop: '1px solid var(--gray-100)' }}>
+        <Container maxWidth="lg">
+          <Box sx={{ textAlign: 'center', mb: 8 }}>
+            <Typography variant="h4" sx={{ fontWeight: 800, mb: 2 }}>Still stuck?</Typography>
+            <Typography sx={{ color: 'var(--gray-500)' }}>Our team is just a message away.</Typography>
+          </Box>
+          <Grid container spacing={4} justifyContent="center">
+            <Grid item xs={12} md={4}>
+              <Link to="/contact" style={{ textDecoration: 'none' }}>
+                <Paper
+                  sx={{
+                    p: 4, textAlign: 'center', borderRadius: '24px',
+                    border: '1px solid var(--gray-200)',
+                    transition: '0.3s',
+                    cursor: 'pointer',
+                    '&:hover': { transform: 'translateY(-8px)', boxShadow: '0 20px 40px rgba(0,0,0,0.05)', borderColor: 'var(--uinsports-blue)' }
+                  }}
+                >
+                  <Box sx={{ width: 60, height: 60, mx: 'auto', mb: 3, borderRadius: '50%', bgcolor: 'rgba(65, 139, 202, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <MdMessage size={28} color="#418BCA" />
+                  </Box>
+                  <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'var(--gray-900)' }}>Chat with Support</Typography>
+                  <Typography sx={{ color: 'var(--gray-500)' }}>Get real-time assistance.</Typography>
+                </Paper>
+              </Link>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <a href="mailto:support@youinsports.com" style={{ textDecoration: 'none' }}>
+                <Paper
+                  sx={{
+                    p: 4, textAlign: 'center', borderRadius: '24px',
+                    border: '1px solid var(--gray-200)',
+                    transition: '0.3s',
+                    cursor: 'pointer',
+                    '&:hover': { transform: 'translateY(-8px)', boxShadow: '0 20px 40px rgba(0,0,0,0.05)', borderColor: 'var(--uinsports-orange)' }
+                  }}
+                >
+                  <Box sx={{ width: 60, height: 60, mx: 'auto', mb: 3, borderRadius: '50%', bgcolor: 'rgba(242, 106, 39, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <MdEmail size={28} color="#F26A27" />
+                  </Box>
+                  <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'var(--gray-900)' }}>Email Us</Typography>
+                  <Typography sx={{ color: 'var(--gray-500)' }}>We reply within 24 hours.</Typography>
+                </Paper>
+              </a>
+            </Grid>
+          </Grid>
         </Container>
       </Box>
+
     </Box>
   )
 }

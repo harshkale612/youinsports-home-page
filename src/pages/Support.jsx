@@ -116,7 +116,7 @@ const mockAthletes = [
     id: 1,
     name: "Sarah Johnson",
     sport: "Swimming",
-    image: "/placeholder-user.jpg",
+    image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop",
     verified: true,
     goal: 15000,
     raised: 8750,
@@ -138,7 +138,7 @@ const mockAthletes = [
     id: 2,
     name: "Marcus Rodriguez",
     sport: "Basketball",
-    image: "/placeholder-user.jpg",
+    image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop",
     verified: true,
     goal: 12000,
     raised: 6800,
@@ -161,7 +161,7 @@ const mockAthletes = [
     id: 3,
     name: "Emma Thompson",
     sport: "Track & Field",
-    image: "/placeholder-user.jpg",
+    image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop",
     verified: false,
     goal: 8000,
     raised: 4200,
@@ -197,7 +197,7 @@ const Support = () => {
 
   useEffect(() => {
     let filtered = athletes;
-    
+
     if (searchQuery) {
       filtered = filtered.filter(athlete =>
         athlete.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -205,11 +205,11 @@ const Support = () => {
         athlete.location.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
-    
+
     if (filterSport && filterSport !== 'All Sports') {
       filtered = filtered.filter(athlete => athlete.sport === filterSport);
     }
-    
+
     setFilteredAthletes(filtered);
   }, [searchQuery, filterSport, athletes]);
 
@@ -221,20 +221,20 @@ const Support = () => {
         amount: supportAmount,
         message: supportMessage || "Keep going!"
       };
-      
+
       setAthletes(prevAthletes =>
         prevAthletes.map(athlete =>
           athlete.id === selectedAthlete.id
             ? {
-                ...athlete,
-                raised: athlete.raised + supportAmount,
-                supporters: athlete.supporters + 1,
-                recentSupporters: [newSupporter, ...athlete.recentSupporters.slice(0, 1)]
-              }
+              ...athlete,
+              raised: athlete.raised + supportAmount,
+              supporters: athlete.supporters + 1,
+              recentSupporters: [newSupporter, ...athlete.recentSupporters.slice(0, 1)]
+            }
             : athlete
         )
       );
-      
+
       setSnackbarMessage(`Successfully supported ${selectedAthlete.name} with $${supportAmount}!`);
       setSnackbarOpen(true);
       setSupportDialogOpen(false);
@@ -404,7 +404,7 @@ const Support = () => {
                       </Tooltip>
                     )}
                   </Box>
-                  
+
                   <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                     <Typography variant="body2" color="text.secondary" sx={{ mr: 1 }}>
                       {athlete.sport}
@@ -427,9 +427,9 @@ const Support = () => {
                         ${athlete.goal.toLocaleString()}
                       </Typography>
                     </Box>
-                    <ProgressBar 
-                      variant="determinate" 
-                      value={getProgressPercentage(athlete.raised, athlete.goal)} 
+                    <ProgressBar
+                      variant="determinate"
+                      value={getProgressPercentage(athlete.raised, athlete.goal)}
                     />
                     <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
                       {Math.round(getProgressPercentage(athlete.raised, athlete.goal))}% funded
@@ -508,8 +508,8 @@ const Support = () => {
       </Container>
 
       {/* Support Dialog */}
-      <Dialog 
-        open={supportDialogOpen} 
+      <Dialog
+        open={supportDialogOpen}
         onClose={() => setSupportDialogOpen(false)}
         maxWidth="sm"
         fullWidth
@@ -527,7 +527,7 @@ const Support = () => {
             </Box>
           </Box>
         </DialogTitle>
-        
+
         <DialogContent>
           <Box sx={{ mb: 3 }}>
             <Typography variant="body2" gutterBottom>

@@ -127,8 +127,8 @@ const playerData = {
   height: "6'2\"",
   weight: "180 lbs",
   location: "Los Angeles, CA",
-  profileImage: "/placeholder-user.jpg",
-  coverImage: "/placeholder.jpg",
+  profileImage: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop",
+  coverImage: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2093&auto=format&fit=crop",
   bio: "Passionate basketball player with 8 years of competitive experience. Currently playing for UCLA and training for professional opportunities. Known for exceptional court vision and leadership skills.",
   verified: true,
   followers: 1247,
@@ -178,31 +178,31 @@ const playerData = {
     photos: [
       {
         id: 1,
-        url: "/placeholder.jpg",
+        url: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2070&auto=format&fit=crop",
         caption: "Championship game winning shot",
       },
-      { id: 2, url: "/placeholder.jpg", caption: "Morning practice session" },
+      { id: 2, url: "https://images.unsplash.com/photo-1544367563-12123d832d34?q=80&w=2070&auto=format&fit=crop", caption: "Morning practice session" },
       {
         id: 3,
-        url: "/placeholder.jpg",
+        url: "https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=2070&auto=format&fit=crop",
         caption: "Team photo after conference win",
       },
       {
         id: 4,
-        url: "/placeholder.jpg",
+        url: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop",
         caption: "Player of the Year award ceremony",
       },
     ],
     videos: [
       {
         id: 1,
-        url: "/placeholder.jpg",
+        url: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2093&auto=format&fit=crop",
         title: "Season Highlights 2023",
         duration: "3:45",
       },
       {
         id: 2,
-        url: "/placeholder.jpg",
+        url: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2070&auto=format&fit=crop",
         title: "Training Session",
         duration: "2:30",
       },
@@ -217,7 +217,7 @@ const playerData = {
         name: "Coach Mike Johnson",
         role: "Head Coach",
         experience: "15 years",
-        image: "/placeholder-user.jpg",
+        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1974&auto=format&fit=crop",
         achievements: "3x Conference Champion",
       },
       {
@@ -225,7 +225,7 @@ const playerData = {
         name: "Sarah Williams",
         role: "Skills Coach",
         experience: "8 years",
-        image: "/placeholder-user.jpg",
+        image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop",
         achievements: "Former WNBA Player",
       },
     ],
@@ -236,7 +236,7 @@ const playerData = {
         type: "University Team",
         role: "Starting Point Guard",
         period: "2021 - Present",
-        logo: "/placeholder.jpg",
+        logo: "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=2069&auto=format&fit=crop",
       },
       {
         id: 2,
@@ -244,7 +244,7 @@ const playerData = {
         type: "Training Facility",
         role: "Member",
         period: "2019 - Present",
-        logo: "/placeholder.jpg",
+        logo: "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=2069&auto=format&fit=crop",
       },
     ],
   },
@@ -322,20 +322,20 @@ const PlayerProfile = () => {
           alt="Player cover photo"
           sx={{ objectFit: 'cover' }}
         />
-        <Box sx={{ 
-          position: 'absolute', 
-          top: 0, 
-          left: 0, 
-          right: 0, 
-          bottom: 0, 
-          background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' 
+        <Box sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)'
         }} />
-        
+
         {/* Edit Button */}
         <Button
-          sx={{ 
-            position: 'absolute', 
-            top: 16, 
+          sx={{
+            position: 'absolute',
+            top: 16,
             right: 16,
             bgcolor: 'rgba(255,255,255,0.9)',
             color: 'text.primary',
@@ -354,8 +354,8 @@ const PlayerProfile = () => {
           <Box sx={{ position: 'relative' }}>
             <Avatar
               src={playerData.profileImage}
-              sx={{ 
-                width: { xs: 120, md: 160 }, 
+              sx={{
+                width: { xs: 120, md: 160 },
                 height: { xs: 120, md: 160 },
                 border: '4px solid white',
                 boxShadow: 3
@@ -363,10 +363,10 @@ const PlayerProfile = () => {
             />
             {playerData.verified && (
               <Tooltip title="Verified Athlete">
-                <Avatar sx={{ 
-                  position: 'absolute', 
-                  bottom: 8, 
-                  right: 8, 
+                <Avatar sx={{
+                  position: 'absolute',
+                  bottom: 8,
+                  right: 8,
                   bgcolor: 'primary.main',
                   width: 32,
                   height: 32
@@ -408,7 +408,7 @@ const PlayerProfile = () => {
                   </Typography>
                 </Box>
               </Box>
-              
+
               <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
                 <Button
                   variant="contained"
@@ -714,9 +714,9 @@ const PlayerProfile = () => {
                           {(playerData.stats.basketball.fieldGoalPercentage * 100).toFixed(1)}%
                         </Typography>
                       </Box>
-                      <LinearProgress 
-                        variant="determinate" 
-                        value={playerData.stats.basketball.fieldGoalPercentage * 100} 
+                      <LinearProgress
+                        variant="determinate"
+                        value={playerData.stats.basketball.fieldGoalPercentage * 100}
                         sx={{ height: 6 }}
                       />
                     </Box>
@@ -727,9 +727,9 @@ const PlayerProfile = () => {
                           {(playerData.stats.basketball.threePointPercentage * 100).toFixed(1)}%
                         </Typography>
                       </Box>
-                      <LinearProgress 
-                        variant="determinate" 
-                        value={playerData.stats.basketball.threePointPercentage * 100} 
+                      <LinearProgress
+                        variant="determinate"
+                        value={playerData.stats.basketball.threePointPercentage * 100}
                         sx={{ height: 6 }}
                       />
                     </Box>
@@ -740,9 +740,9 @@ const PlayerProfile = () => {
                           {(playerData.stats.basketball.freeThrowPercentage * 100).toFixed(1)}%
                         </Typography>
                       </Box>
-                      <LinearProgress 
-                        variant="determinate" 
-                        value={playerData.stats.basketball.freeThrowPercentage * 100} 
+                      <LinearProgress
+                        variant="determinate"
+                        value={playerData.stats.basketball.freeThrowPercentage * 100}
                         sx={{ height: 6 }}
                       />
                     </Box>
@@ -1060,9 +1060,9 @@ const PlayerProfile = () => {
                             ${need.raised.toLocaleString()} / ${need.amount.toLocaleString()}
                           </Typography>
                         </Box>
-                        <LinearProgress 
-                          variant="determinate" 
-                          value={(need.raised / need.amount) * 100} 
+                        <LinearProgress
+                          variant="determinate"
+                          value={(need.raised / need.amount) * 100}
                           sx={{ height: 6 }}
                         />
                       </Box>
@@ -1094,9 +1094,9 @@ const PlayerProfile = () => {
                       Send Message
                     </Button>
                   </Box>
-                  
+
                   <Divider sx={{ my: 3 }} />
-                  
+
                   <Box>
                     <Typography variant="body2" color="text.secondary" gutterBottom>
                       Supporters
@@ -1144,25 +1144,25 @@ const PlayerProfile = () => {
                   </Typography>
                   <List>
                     <ListItem sx={{ px: 0 }}>
-                      <ListItemText 
+                      <ListItemText
                         primary="Training Hours This Week"
                         secondary={playerData.analytics.trainingHours + " hours"}
                       />
                     </ListItem>
                     <ListItem sx={{ px: 0 }}>
-                      <ListItemText 
+                      <ListItemText
                         primary="Competitions This Year"
                         secondary={playerData.analytics.competitionsThisYear + " events"}
                       />
                     </ListItem>
                     <ListItem sx={{ px: 0 }}>
-                      <ListItemText 
+                      <ListItemText
                         primary="Performance Trend"
                         secondary={
-                          <Chip 
-                            label={playerData.analytics.performanceTrend} 
-                            color="success" 
-                            size="small" 
+                          <Chip
+                            label={playerData.analytics.performanceTrend}
+                            color="success"
+                            size="small"
                           />
                         }
                       />
@@ -1176,8 +1176,8 @@ const PlayerProfile = () => {
       </Container>
 
       {/* Support Dialog */}
-      <Dialog 
-        open={supportDialogOpen} 
+      <Dialog
+        open={supportDialogOpen}
         onClose={() => setSupportDialogOpen(false)}
         maxWidth="sm"
         fullWidth
@@ -1195,7 +1195,7 @@ const PlayerProfile = () => {
             </Box>
           </Box>
         </DialogTitle>
-        
+
         <DialogContent>
           <Box sx={{ mb: 3 }}>
             <Typography variant="body2" gutterBottom>
@@ -1255,8 +1255,8 @@ const PlayerProfile = () => {
       </Dialog>
 
       {/* Media Dialog */}
-      <Dialog 
-        open={mediaDialogOpen} 
+      <Dialog
+        open={mediaDialogOpen}
         onClose={() => setMediaDialogOpen(false)}
         maxWidth="md"
         fullWidth
@@ -1273,7 +1273,7 @@ const PlayerProfile = () => {
                 </IconButton>
               </Box>
             </DialogTitle>
-            
+
             <DialogContent>
               <Box sx={{ textAlign: 'center' }}>
                 <CardMedia
@@ -1290,7 +1290,7 @@ const PlayerProfile = () => {
                 )}
               </Box>
             </DialogContent>
-            
+
             <DialogActions sx={{ p: 3 }}>
               <Button onClick={() => setMediaDialogOpen(false)}>
                 Close

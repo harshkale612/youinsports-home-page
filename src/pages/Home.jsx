@@ -8,7 +8,12 @@ import {
   Card,
   CardContent,
   Grid,
+  useTheme,
+  useMediaQuery,
+  Avatar,
+  Paper
 } from '@mui/material';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   MdPlayArrow as PlayArrow,
   MdTrendingUp as TrendingUp,
@@ -19,12 +24,12 @@ import {
   MdRocket as Rocket,
   MdSmartToy as SmartToy,
   MdVideoLibrary as VideoLibrary,
+  MdArrowForward as ArrowForward,
 } from 'react-icons/md';
 import { MdElectricBolt as ElectricBoltIcon } from 'react-icons/md';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { fetchAthletes } from '../lib/api';
 import SeoSchema from '../components/SeoSchema';
-import { FaRobot } from 'react-icons/fa6';
 import { FiTarget } from 'react-icons/fi';
 import { FaArrowsDownToPeople } from "react-icons/fa6";
 import { BsAward } from "react-icons/bs";
@@ -32,7 +37,6 @@ import { LuUsers } from "react-icons/lu";
 import { GoZap } from "react-icons/go";
 import { GoTrophy } from "react-icons/go";
 import { IoTrendingUp } from "react-icons/io5";
-
 
 // Community stats data
 const communityStats = [
@@ -54,13 +58,35 @@ const iconsMap = {
   IoTrendingUp: IoTrendingUp,
 }
 
-// const totalUsers = communityStats.reduce((sum, sport) => sum + sport.value, 0);
 const totalUsers = 10000;
+
+// Animation Variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: 'spring', stiffness: 50, damping: 20 },
+  },
+};
 
 const Home = () => {
   const [featuredAthletes, setFeaturedAthletes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dailyJoins, setDailyJoins] = useState(127);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
     // Fetch featured athletes
@@ -77,7 +103,6 @@ const Home = () => {
 
     loadFeaturedAthletes();
 
-    // Simulate real-time daily joins counter
     const interval = setInterval(() => {
       setDailyJoins((prev) => prev + Math.floor(Math.random() * 3));
     }, 30000);
@@ -86,1221 +111,537 @@ const Home = () => {
   }, []);
 
   return (
-    <Box>
+    <Box sx={{ overflowX: 'hidden' }}>
       <SeoSchema type="WebSite" />
 
-      {/* Clean Hero Section */}
+      {/* --- HERO SECTION --- */}
       <Box
         sx={{
           position: 'relative',
-          width: '100%',
           minHeight: '100vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #0C3042 0%, #418BCA 100%)',
+          background: 'radial-gradient(circle at 10% 20%, rgb(12, 48, 66) 0%, rgb(32, 85, 128) 90.2%)',
           color: 'white',
-          overflow: 'hidden',
+          pt: { xs: 10, md: 0 },
+          pb: { xs: 10, md: 0 },
         }}
         className="hero-grid-overlay"
       >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.1)',
-          }}
-        />
-
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 10 }}>
-          <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} lg={6}>
-              <Box sx={{ textAlign: { xs: 'center', lg: 'left' } }}>
-                <Box sx={{ mb: 4 }} className="floating-animation">
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 10 }}>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+          >
+            <Grid container spacing={6} alignItems="center">
+              <Grid item xs={12} lg={6} sx={{ textAlign: { xs: 'center', lg: 'left' } }}>
+                <motion.div variants={itemVariants}>
                   <Box
                     sx={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      px: 3,
-                      py: 1,
+                      px: 2,
+                      py: 0.5,
                       borderRadius: '9999px',
-                      fontSize: '14px',
-                      fontWeight: 700,
+                      fontSize: '0.875rem',
+                      fontWeight: 600,
                       backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                      color: 'white',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      mb: 2,
-                    }}
-                  >
-                    <AutoAwesome style={{ marginRight: 5, fontSize: '16px' }} />
-                    Every Athlete Matters
-                  </Box>
-                  <Typography
-                    variant="h1"
-                    sx={{
-                      fontSize: { xs: '3rem', md: '4rem', lg: '4rem' },
-                      fontWeight: 700,
-                      lineHeight: 1.1,
+                      border: '1px solid rgba(255, 255, 255, 0.15)',
+                      backdropFilter: 'blur(10px)',
+                      color: '#FDBA74',
                       mb: 3,
                     }}
                   >
-                    Your Sports Journey,
-                    <Box component="span" sx={{ display: 'block', color: '#fde047' }}>
-                      But Make It Epic!
+                    <AutoAwesome style={{ marginRight: 6 }} />
+                    The Future of Sports Networking
+                  </Box>
+                  <Typography className="text-display" sx={{ mb: 2, color: 'white' }}>
+                    Your Sports Journey, <br />
+                    <Box component="span" className="text-gradient-primary">
+                      But Make It Epic.
                     </Box>
                   </Typography>
                   <Typography
-                    variant="h6"
+                    variant="h5"
                     sx={{
-                      color: 'rgba(255, 255, 255, 0.9)',
-                      maxWidth: '600px',
-                      mb: 4,
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      fontWeight: 400,
+                      maxWidth: '650px',
                       mx: { xs: 'auto', lg: 0 },
+                      mb: 5,
+                      lineHeight: 1.6,
                     }}
                   >
-                    The first platform to create your sports CV, manage your athletic journey, and connect with a
-                    supportive community at any level. No cap!
+                    The first platform to create your sports CV, connect with sponsors, and manage your athletic legacy. Join the revolution.
                   </Typography>
-                </Box>
 
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    gap: 2,
-                    justifyContent: { xs: 'center', lg: 'flex-start' },
-                    mb: 4,
-                  }}
-                  className="transition-base"
-                >
-                  <Button
-                    size="large"
+                  <Box
                     sx={{
-                      color: 'white',
-                      fontWeight: 600,
-                      px: 3,
-                      py: 1.5,
-                      borderRadius: '8px',
-                      backgroundColor: 'rgb(242 106 39 / var(--tw-bg-opacity, 1))',
-                      '&:hover': {
-                        backgroundColor: 'rgba(46, 150, 255, 0.976)',
-                      },
+                      display: 'flex',
+                      flexDirection: { xs: 'column', sm: 'row' },
+                      gap: 2,
+                      justifyContent: { xs: 'center', lg: 'flex-start' },
                     }}
                   >
-                    <Rocket style={{ marginRight: 5 }} />
-                    Let's Get Started!
-                  </Button>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    gap: 2,
-                    justifyContent: { xs: 'center', lg: 'flex-start' },
-                  }}
-                >
-                  <Card
-                    sx={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                      backdropFilter: 'blur(10px)',
-                      borderRadius: '12px',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      textAlign: 'center',
-                      p: 2,
-                    }}
-                    className="clean-hover-lift"
-                  >
-                    <Typography variant="h4" sx={{ fontWeight: 700, color: 'white' }}>
-                      {totalUsers.toLocaleString()}+
-                    </Typography>
-                    <Typography sx={{ color: 'rgba(255, 255, 255, 0.8)', fontWeight: 500 }}>
-                      Athletes
-                    </Typography>
-                  </Card>
-                  <Card
-                    sx={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                      backdropFilter: 'blur(10px)',
-                      borderRadius: '12px',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      textAlign: 'center',
-                      p: 2,
-                    }}
-                    className="clean-hover-lift"
-                  >
-                    <Typography variant="h4" sx={{ fontWeight: 700, color: 'white' }}>
-                      50+
-                    </Typography>
-                    <Typography sx={{ color: 'rgba(255, 255, 255, 0.8)', fontWeight: 500 }}>
-                      Sports
-                    </Typography>
-                  </Card>
-                  <Card
-                    sx={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                      backdropFilter: 'blur(10px)',
-                      borderRadius: '12px',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      textAlign: 'center',
-                      p: 2,
-                    }}
-                    className="clean-hover-lift"
-                  >
-                    <Typography variant="h4" sx={{ fontWeight: 700, color: 'white' }}>
-                      $2M+
-                    </Typography>
-                    <Typography sx={{ color: 'rgba(255, 255, 255, 0.8)', fontWeight: 500 }}>
-                      Raised
-                    </Typography>
-                  </Card>
-                </Box>
-              </Box>
-            </Grid>
-
-            {/* Community Stats Chart */}
-            <Grid item xs={12} lg={6}>
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Card
-                  sx={{
-                    width: '100%',
-                    marginTop: "20px",
-                    maxWidth: '500px',
-                    backgroundColor: 'white',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '12px',
-                    marginBottom: "20px",
-                    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-                  }}
-                >
-                  <CardContent sx={{ p: 4 }}>
-                    <Box sx={{ textAlign: 'center', mb: 3 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 1 }}>
-                        <Typography
-                          variant="h5"
-                          sx={{
-                            fontWeight: 700,
-                            color: '#0C3042',
-                          }}
-                        >
-                          {totalUsers.toLocaleString()}+ Athletes
-                        </Typography>
-                        <Box
-                          sx={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            px: 2,
-                            py: 0.5,
-                            borderRadius: '9999px',
-                            fontSize: '12px',
-                            fontWeight: 500,
-                            backgroundColor: 'rgba(242, 106, 39, 0.1)',
-                            color: '#F26A27',
-                            border: '1px solid rgba(242, 106, 39, 0.2)',
-                          }}
-                        >
-                          <TrendingUp sx={{ fontSize: '12px', mr: 0.5 }} />
-                          Trending
-                        </Box>
-                      </Box>
-                      <Typography sx={{ color: '#6b7280' }}>
-                        <Box component="span" sx={{ fontWeight: 700, color: '#F26A27', fontSize: '1.25rem' }}>
-                          {dailyJoins}
-                        </Box>{' '}
-                        joined today!
-                      </Typography>
-                    </Box>
-
-                    <Box sx={{ height: '300px', mb: 3 }}>
-                      <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                          <Pie
-                            data={communityStats}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={70}
-                            outerRadius={130}
-                            paddingAngle={3}
-                            dataKey="value"
-                          >
-                            {communityStats.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={entry.color} />
-                            ))}
-                          </Pie>
-                          <Tooltip
-                            content={({ active, payload }) => {
-                              if (active && payload && payload.length) {
-                                const data = payload[0].payload;
-                                return (
-                                  <Card sx={{ p: 2, boxShadow: 2 }}>
-                                    <Typography sx={{ fontWeight: 700, color: '#0C3042' }}>
-                                      {data.name}
-                                    </Typography>
-                                    <Typography sx={{ color: '#6b7280' }}>
-                                      {data.value.toLocaleString()} athletes ({data.percentage}%)
-                                    </Typography>
-                                  </Card>
-                                );
-                              }
-                              return null;
-                            }}
-                          />
-                        </PieChart>
-                      </ResponsiveContainer>
-                    </Box>
-
-                    <Box sx={{ textAlign: 'center', mb: 2 }}>
-                      <Typography
+                    <Link to="/signup" style={{ textDecoration: 'none' }}>
+                      <Button
+                        variant="contained"
+                        size="large"
                         sx={{
-                          background: 'linear-gradient(135deg, #F26A27, #418BCA)',
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                          backgroundClip: 'text',
-                          fontWeight: 600,
-                          mb: 1,
+                          borderRadius: '50px',
+                          px: 4,
+                          py: 1.5,
+                          fontSize: '1.1rem',
+                          fontWeight: 700,
+                          background: 'var(--uinsports-orange)',
+                          textTransform: 'none',
+                          boxShadow: '0 4px 14px 0 rgba(242, 106, 39, 0.39)',
+                          '&:hover': {
+                            background: '#d95d22',
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 6px 20px rgba(242, 106, 39, 0.23)',
+                          },
+                          transition: 'all 0.3s ease',
                         }}
                       >
-                        Join the World's Most Vibrant Sports Community!
-                      </Typography>
-                      <Typography sx={{ color: '#6b7280' }}>
-                        Connect with athletes from every sport, everywhere
-                      </Typography>
-                    </Box>
+                        Start Your Journey
+                        <ArrowForward style={{ marginLeft: 8 }} />
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="outlined"
+                      size="large"
+                      sx={{
+                        borderRadius: '50px',
+                        px: 4,
+                        py: 1.5,
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        borderColor: 'rgba(255,255,255,0.3)',
+                        color: 'white',
+                        textTransform: 'none',
+                        '&:hover': {
+                          borderColor: 'white',
+                          background: 'rgba(255,255,255,0.05)',
+                        },
+                      }}
+                    >
+                      <PlayArrow style={{ marginRight: 8 }} />
+                      Watch Showreel
+                    </Button>
+                  </Box>
 
-                    {/* Top Sports List */}
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                      {communityStats.slice(0, 4).map((sport) => (
-                        <Box
-                          key={sport.name}
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            fontSize: '14px',
-                            backgroundColor: '#f9fafb',
-                            borderRadius: '8px',
-                            p: 1.5,
-                            transition: 'transform 0.3s ease',
-                            '&:hover': {
-                              transform: 'translateY(-1px)',
-                            },
-                          }}
-                        >
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                            <Box
-                              sx={{
-                                width: '16px',
-                                height: '16px',
-                                borderRadius: '50%',
-                                backgroundColor: sport.color,
-                              }}
-                            />
-                            <Typography sx={{ fontWeight: 600, color: '#0C3042' }}>
-                              {sport.name}
-                            </Typography>
-                          </Box>
-                          <Typography sx={{ fontWeight: 700, color: '#0C3042' }}>
-                            {sport.value.toLocaleString()}
+                  {/* Stats Row */}
+                  <Box sx={{ mt: 8, display: 'flex', gap: 4, justifyContent: { xs: 'center', lg: 'flex-start' } }}>
+                    {[
+                      { label: 'Athletes', value: '10K+' },
+                      { label: 'Sports', value: '50+' },
+                      { label: 'Raised', value: '$2M+' },
+                    ].map((stat) => (
+                      <Box key={stat.label} sx={{ textAlign: 'center' }}>
+                        <Typography variant="h4" sx={{ fontWeight: 700, color: 'white' }}>
+                          {stat.value}
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                          {stat.label}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                </motion.div>
+              </Grid>
+
+              <Grid item xs={12} lg={6}>
+                <motion.div variants={itemVariants}>
+                  <Box sx={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
+                    <Box
+                      className="glass-panel"
+                      sx={{
+                        p: 4,
+                        maxWidth: 500,
+                        width: '100%',
+                        borderRadius: '24px',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        background: 'rgba(12, 48, 66, 0.6) !important', // Override for dark contrast
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                        <Box>
+                          <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>Community Pulse</Typography>
+                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)' }}>Live activity from athletes worldwide</Typography>
+                        </Box>
+                        <Box sx={{ bgcolor: 'rgba(255,255,255,0.1)', borderRadius: '12px', px: 2, py: 1 }}>
+                          <Typography variant="caption" sx={{ color: '#F26A27', fontWeight: 700, display: 'flex', alignItems: 'center' }}>
+                            <TrendingUp style={{ marginRight: 4 }} /> +{dailyJoins} Today
                           </Typography>
                         </Box>
-                      ))}
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          fontSize: '14px',
-                          pt: 1,
-                          borderTop: '1px solid #e5e7eb',
-                        }}
-                      >
-                        <Typography sx={{ fontWeight: 600, color: '#0C3042' }}>
-                          + 50 more sports
-                        </Typography>
-                        <Link
-                          to="/community"
-                          style={{
-                            color: '#418BCA',
-                            textDecoration: 'none',
-                            fontWeight: 600,
-                          }}
-                        >
-                          Explore All →
-                        </Link>
+                      </Box>
+
+                      <Box sx={{ height: 250, width: '100%' }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={communityStats}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={60}
+                              outerRadius={80}
+                              paddingAngle={5}
+                              dataKey="value"
+                            >
+                              {communityStats.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
+                              ))}
+                            </Pie>
+                            <Tooltip
+                              contentStyle={{ background: '#0f172a', border: 'none', borderRadius: '8px', color: '#fff' }}
+                              itemStyle={{ color: '#fff' }}
+                            />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </Box>
+
+                      <Box sx={{ mt: 2, display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
+                        {communityStats.slice(0, 4).map((sport) => (
+                          <Box key={sport.name} sx={{ display: 'flex', alignItems: 'center', gap: 1, bgcolor: 'rgba(255,255,255,0.05)', px: 1.5, py: 0.5, borderRadius: '50px' }}>
+                            <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: sport.color }} />
+                            <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.8)' }}>{sport.name}</Typography>
+                          </Box>
+                        ))}
                       </Box>
                     </Box>
-                  </CardContent>
-                </Card>
-              </Box>
+                  </Box>
+                </motion.div>
+              </Grid>
             </Grid>
-          </Grid>
+          </motion.div>
         </Container>
       </Box>
 
-      {/* Features Section */}
-      <Box sx={{ py: { xs: 8, md: 12 }, backgroundColor: '#f9fafb' }}>
+      {/* --- BENTO GRID FEATURES --- */}
+      <Box sx={{ py: 12, bgcolor: 'var(--gray-50)' }}>
         <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Box
-              sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                px: 3,
-                py: 1,
-                borderRadius: '9999px',
-                fontSize: '14px',
-                fontWeight: 500,
-                backgroundColor: 'rgba(242, 106, 39, 0.1)',
-                color: '#F26A27',
-                border: '1px solid rgba(242, 106, 39, 0.2)',
-                mb: 2,
-              }}
-            >
-              Why You In Sports Hits Different
-            </Box>
-            <Typography
-              variant="h2"
-              sx={{
-                fontWeight: 700,
-                color: '#0C3042',
-                mb: 3,
-                fontSize: { xs: '2rem', md: '2.5rem' },
-              }}
-            >
-              Everything You Need to{' '}
-              <Box component="span" sx={{ background: 'linear-gradient(135deg, #F26A27, #418BCA)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Level Up</Box>
+          <Box sx={{ textAlign: 'center', mb: 10 }}>
+            <Typography className="text-subheading" sx={{ color: 'var(--uinsports-blue)', fontWeight: 700, mb: 2, textTransform: 'uppercase', letterSpacing: '1px' }}>
+              Why UinSports?
             </Typography>
-            <Typography
-              sx={{
-                color: '#6b7280',
-                maxWidth: '768px',
-                mx: 'auto',
-                fontSize: '1.125rem',
-              }}
-            >
-              Our platform provides all the tools and connections you need to take your athletic career to the next
-              level
+            <Typography className="text-heading" sx={{ color: 'var(--gray-900)', mb: 3 }}>
+              Everything You Need to <span className="text-gradient-primary">Level Up</span>
+            </Typography>
+            <Typography sx={{ color: 'var(--gray-500)', maxWidth: 600, mx: 'auto', fontSize: '1.125rem' }}>
+              A complete ecosystem designed to accelerate your career, from networking to funding.
             </Typography>
           </Box>
 
-          <Grid container spacing={4} sx={{ maxWidth: '1792px', mx: 'auto' }}>
-            {[
-              {
-                icon: 'FaArrowsDownToPeople',
-                title: 'Sports Networking',
-                description: 'Connect with coaches, sponsors, and fellow athletes worldwide. Build meaningful relationships that advance your career.',
-                color: '#418BCA',
-              },
-              {
-                icon: 'BsAward',
-                title: 'Professional Sports CV',
-                description: 'Create a stunning digital portfolio showcasing your achievements, skills, and potential.',
-                color: '#F26A27',
-              },
-              {
-                icon: 'LuUsers',
-                title: 'Community Support',
-                description: 'Join sport-specific communities where athletes share experiences, advice, and support each other\'s journeys.',
-                color: '#0C3042',
-              },
-              {
-                icon: 'GoZap',
-                title: 'Funding Platform',
-                description: 'Get financial support for coaching, travel, equipment, and more from your supporters and sponsors.',
-                color: '#F26A27',
-                badge: 'Coming Soon',
-              },
-              {
-                icon: 'GoTrophy',
-                title: 'Achievement Tracking',
-                description: 'Document and showcase your sports achievements, medals, and records in one comprehensive platform.',
-                color: '#418BCA',
-              },
-              {
-                icon: 'IoTrendingUp',
-                title: 'Performance Analytics',
-                description: 'Track your progress with detailed analytics and AI-powered insights for continuous improvement.',
-                color: '#0C3042',
-                badge: 'Coming Soon',
-              },
-            ].map((feature, index) => {
-              const IconComponent = iconsMap[feature.icon]
-              return (
-                <Grid item xs={10} md={6} lg={4} key={index}>
-                  <Card
-                    sx={{
-                      backgroundColor: 'white',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '12px',
-                      boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
-                      textAlign: 'center',
-                      p: 3,
-                      transition: 'transform 0.3s ease',
-                      '&:hover': { transform: 'translateY(-4px)' },
-                    }}
-                  >
-                    {feature.badge && (
-                      <Box
-                        sx={{
-                          position: 'absolute',
-                          top: 16,
-                          right: 16,
-                          px: 2,
-                          py: 0.5,
-                          borderRadius: '9999px',
-                          fontSize: '12px',
-                          fontWeight: 500,
-                          backgroundColor: 'rgba(242, 106, 39, 0.1)',
-                          color: '#F26A27',
-                          border: '1px solid rgba(242, 106, 39, 0.2)',
-                        }}
-                      >
-                        {feature.badge}
-                      </Box>
-                    )}
-
-                    <Box
-                      sx={{
-                        width: '64px',
-                        height: '64px',
-                        mx: 'auto',
-                        mb: 3,
-                        borderRadius: '50%',
-                        backgroundColor: `${feature.color}1A`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <IconComponent style={{ color: feature.color, fontSize: '32px' }} />
+          <Grid container spacing={4}>
+            {/* Main Feature - Large */}
+            <Grid item xs={12} md={8}>
+              <motion.div whileHover={{ y: -5 }} transition={{ type: 'spring', stiffness: 300 }}>
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 5,
+                    height: '100%',
+                    borderRadius: '24px',
+                    bgcolor: 'white',
+                    border: '1px solid var(--gray-200)',
+                    display: 'flex',
+                    flexDirection: { xs: 'column', md: 'row' },
+                    alignItems: 'center',
+                    gap: 4,
+                    overflow: 'hidden',
+                    position: 'relative'
+                  }}
+                >
+                  <Box sx={{ flex: 1, zIndex: 1 }}>
+                    <Box sx={{ width: 50, height: 50, borderRadius: '12px', bgcolor: 'rgba(65, 139, 202, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                      <FaArrowsDownToPeople size={24} color="var(--uinsports-blue)" />
                     </Box>
+                    <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>Sports Networking</Typography>
+                    <Typography sx={{ color: 'var(--gray-500)', fontSize: '1.1rem', mb: 3 }}>
+                      Connect directly with verified coaches, sponsors, and peers. Build the relationships that matter.
+                    </Typography>
+                    <Button variant="text" sx={{ color: 'var(--uinsports-blue)', fontWeight: 600, p: 0 }}>
+                      Learn more <ArrowForward size={16} style={{ marginLeft: 8 }} />
+                    </Button>
+                  </Box>
+                  <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+                    <Box sx={{
+                      width: 250,
+                      height: 300,
+                      bgcolor: 'var(--gray-100)',
+                      borderRadius: '16px',
+                      position: 'relative',
+                      boxShadow: '0 20px 40px rgba(0,0,0,0.08)'
+                    }}>
+                      {/* Mock UI Elements */}
+                      <Box sx={{ position: 'absolute', top: 20, left: 20, right: 20, height: 60, bgcolor: 'white', borderRadius: '12px', display: 'flex', alignItems: 'center', px: 2, gap: 2 }}>
+                        <Avatar sx={{ width: 32, height: 32, bgcolor: '#F26A27' }}>S</Avatar>
+                        <Box sx={{ width: '60%', height: 8, bgcolor: 'var(--gray-100)', borderRadius: 4 }} />
+                      </Box>
+                      <Box sx={{ position: 'absolute', top: 100, left: 20, right: 20, bottom: 20, bgcolor: 'white', borderRadius: '12px', p: 2 }}>
+                        <Box sx={{ width: '100%', height: '100%', bgcolor: 'var(--gray-50)', borderRadius: '8px' }} />
+                      </Box>
+                    </Box>
+                  </Box>
+                </Paper>
+              </motion.div>
+            </Grid>
 
-                    <Typography variant="h5" sx={{ fontWeight: 600, color: '#0C3042', mb: 2 }}>
-                      {feature.title}
+            {/* Secondary Feature - Vertical */}
+            <Grid item xs={12} md={4}>
+              <motion.div whileHover={{ y: -5 }} transition={{ type: 'spring', stiffness: 300 }} style={{ height: '100%' }}>
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 4,
+                    height: '100%',
+                    borderRadius: '24px',
+                    bgcolor: 'var(--uinsports-navy)',
+                    color: 'white',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                >
+                  <Box sx={{ position: 'relative', zIndex: 1 }}>
+                    <Box sx={{ width: 50, height: 50, borderRadius: '12px', bgcolor: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                      <BsAward size={24} color="white" />
+                    </Box>
+                    <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>Professional CV</Typography>
+                    <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                      Showcase your stats, highlights, and achievements in one link.
                     </Typography>
-                    <Typography sx={{ color: '#6b7280' }}>
-                      {feature.description}
-                    </Typography>
-                  </Card>
-                </Grid>
-              )
-            })}
+                  </Box>
+                  <Box sx={{
+                    mt: 4,
+                    height: 150,
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.1), transparent)',
+                    borderRadius: '16px',
+                    border: '1px solid rgba(255,255,255,0.05)'
+                  }} />
+                </Paper>
+              </motion.div>
+            </Grid>
+
+            {/* 3rd Feature */}
+            <Grid item xs={12} md={4}>
+              <motion.div whileHover={{ y: -5 }} transition={{ type: 'spring', stiffness: 300 }}>
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 4,
+                    borderRadius: '24px',
+                    bgcolor: 'white',
+                    border: '1px solid var(--gray-200)',
+                    minHeight: 300
+                  }}
+                >
+                  <Box sx={{ width: 50, height: 50, borderRadius: '12px', bgcolor: 'rgba(242, 106, 39, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                    <GoZap size={24} color="var(--uinsports-orange)" />
+                  </Box>
+                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>Funding Platform</Typography>
+                  <Typography sx={{ color: 'var(--gray-500)', mb: 2 }}>
+                    Crowdfund your next tournament or training camp.
+                  </Typography>
+                  <Box sx={{
+                    display: 'inline-block',
+                    px: 1.5,
+                    py: 0.5,
+                    bgcolor: 'rgba(242, 106, 39, 0.1)',
+                    color: 'var(--uinsports-orange)',
+                    borderRadius: '6px',
+                    fontSize: '0.75rem',
+                    fontWeight: 700
+                  }}>
+                    COMING SOON
+                  </Box>
+                </Paper>
+              </motion.div>
+            </Grid>
+
+            {/* 4th Feature */}
+            <Grid item xs={12} md={4}>
+              <motion.div whileHover={{ y: -5 }} transition={{ type: 'spring', stiffness: 300 }}>
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 4,
+                    borderRadius: '24px',
+                    bgcolor: 'white',
+                    border: '1px solid var(--gray-200)',
+                    minHeight: 300
+                  }}
+                >
+                  <Box sx={{ width: 50, height: 50, borderRadius: '12px', bgcolor: 'rgba(65, 139, 202, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                    <GoTrophy size={24} color="var(--uinsports-blue)" />
+                  </Box>
+                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>Achievement Tracking</Typography>
+                  <Typography sx={{ color: 'var(--gray-500)' }}>
+                    Document every medal, record, and milestone.
+                  </Typography>
+                </Paper>
+              </motion.div>
+            </Grid>
+
+            {/* 5th Feature */}
+            <Grid item xs={12} md={4}>
+              <motion.div whileHover={{ y: -5 }} transition={{ type: 'spring', stiffness: 300 }}>
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 4,
+                    borderRadius: '24px',
+                    bgcolor: 'white',
+                    border: '1px solid var(--gray-200)',
+                    minHeight: 300
+                  }}
+                >
+                  <Box sx={{ width: 50, height: 50, borderRadius: '12px', bgcolor: 'rgba(12, 48, 66, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                    <LuUsers size={24} color="var(--uinsports-navy)" />
+                  </Box>
+                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>Communities</Typography>
+                  <Typography sx={{ color: 'var(--gray-500)' }}>
+                    Sport-specific groups to share tips and advice.
+                  </Typography>
+                </Paper>
+              </motion.div>
+            </Grid>
+
           </Grid>
         </Container>
       </Box>
 
-      {/* AI Features Highlight Section */}
-      <Box
-        sx={{
-          py: 8,
-          background: 'linear-gradient(to right, rgba(65, 139, 202, 0.1), rgba(242, 106, 39, 0.1))',
-        }}
-      >
+      {/* --- AI SECTION --- */}
+      <Box sx={{ py: 12, bgcolor: 'white', borderTop: '1px solid var(--gray-100)' }}>
         <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Box
-              sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                px: 3,
-                py: 1,
-                borderRadius: '9999px',
-                fontSize: '14px',
-                fontWeight: 500,
-                backgroundColor: 'rgba(242, 106, 39, 0.1)',
-                color: '#F26A27',
-                border: '1px solid rgba(242, 106, 39, 0.2)',
-                mb: 2,
-              }}
-            >
-              Coming Soon
-            </Box>
-            {/* <Box
-              sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '64px',
-                height: '64px',
-                borderRadius: '50%',
-                background: 'linear-gradient(to right, #418BCA, #F26A27)',
-                mb: 3,
-              }}
-            >
-              <FaRobot style={{ color: 'white', fontSize: '30px' }} />
-            </Box> */}
-            <Typography
-              variant="h2"
-              sx={{
-                fontWeight: 700,
-                color: '#0C3042',
-                mb: 3,
-                fontSize: { xs: '2rem', md: '2.5rem' },
-              }}
-            >
-              AI-Powered <Box component="span" sx={{ background: 'linear-gradient(135deg, #F26A27, #418BCA)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Performance Analysis</Box>
-            </Typography>
-            <Typography
-              sx={{
-                color: '#6b7280',
-                maxWidth: '768px',
-                mx: 'auto',
-                mb: 4,
-                fontSize: '1.125rem',
-              }}
-            >
-              Upload your training videos and get instant AI analysis of your technique. Our advanced computer vision
-              identifies areas for improvement and provides personalized recommendations.
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, justifyContent: 'center' }}>
-              <Link
-                // to="/video-analysis" 
-                style={{ textDecoration: 'none' }}>
-                <Button
-                  size="large"
-                  sx={{
-                    color: 'white',
-                    fontWeight: 600,
-                    px: 3,
-                    py: 1.5,
-                    borderRadius: '8px',
-                    backgroundColor: 'rgb(242 106 39 / var(--tw-bg-opacity, 1))',
-                      '&:hover': {
-                        backgroundColor: 'rgba(46, 150, 255, 0.976)',
-                      },
-                  }}
-                >
-                  <VideoLibrary style={{ marginRight: 5 }} />
-                  Try AI Video Analysis
-                </Button>
-              </Link>
-              <Link
-                // to="/ai-agents" 
-                style={{ textDecoration: 'none' }}>
+          <Grid container spacing={8} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <Box sx={{ position: 'relative' }}>
+                <Box sx={{
+                  position: 'absolute',
+                  top: -20,
+                  left: -20,
+                  width: '100%',
+                  height: '100%',
+                  bgcolor: 'rgba(242, 106, 39, 0.05)',
+                  borderRadius: '24px',
+                  zIndex: 0
+                }} />
+                <Box sx={{
+                  position: 'relative',
+                  zIndex: 1,
+                  bgcolor: 'var(--gray-900)',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  boxShadow: '0 20px 50px rgba(0,0,0,0.2)',
+                  minHeight: 400,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }} >
+                  <Typography sx={{ color: 'rgba(255,255,255,0.2)', fontWeight: 700, letterSpacing: 2 }}>
+                    AI INTERFACE PREVIEW
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ pl: { md: 4 } }}>
+                <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, color: 'var(--uinsports-blue)', fontWeight: 700, mb: 2, fontSize: '0.875rem' }}>
+                  <AutoAwesome />
+                  ARTIFICIAL INTELLIGENCE
+                </Box>
+                <Typography variant="h2" sx={{ fontWeight: 800, mb: 3, fontSize: { xs: '2.5rem', md: '3rem' }, lineHeight: 1.1 }}>
+                  Unlock Your <span className="text-gradient-primary">Full Potential</span> with AI
+                </Typography>
+                <Typography sx={{ color: 'var(--gray-500)', fontSize: '1.25rem', mb: 4, lineHeight: 1.6 }}>
+                  Get instant analysis of your technique. Our computer vision identifies areas for improvement and provides personalized coaching tips.
+                </Typography>
+
                 <Button
                   variant="outlined"
                   size="large"
                   sx={{
-                    borderColor: '#418BCA',
-                    color: '#418BCA',
-                    backgroundColor: 'transparent',
-                    fontWeight: 600,
-                    px: 3,
+                    borderRadius: '50px',
+                    px: 4,
                     py: 1.5,
-                    borderRadius: '8px',
+                    fontSize: '1rem',
+                    fontWeight: 600,
+                    borderColor: 'var(--gray-300)',
+                    color: 'var(--gray-900)',
+                    textTransform: 'none',
                     '&:hover': {
-                      borderColor: '#418BCA',
-                      backgroundColor: 'rgba(65, 139, 202, 0.04)',
+                      borderColor: 'var(--gray-900)',
+                      background: 'transparent'
                     },
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1
                   }}
                 >
-                  <AutoAwesome style={{ marginRight: 5 }} />
-                  Explore AI Agents
+                  Explore AI Tools <ArrowForward />
                 </Button>
-              </Link>
-            </Box>
-          </Box>
-
-          <Grid container spacing={4} sx={{ maxWidth: '1280px', mx: 'auto' }}>
-            <Grid item xs={10} md={4}>
-              <Card
-                sx={{
-                  backgroundColor: 'white',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '12px',
-                  boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-                  textAlign: 'center',
-                  p: 3,
-                  transition: 'transform 0.3s ease',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                  },
-                }}
-              >
-                <Box
-                  sx={{
-                    width: '64px',
-                    height: '64px',
-                    mx: 'auto',
-                    mb: 3,
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(65, 139, 202, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FiTarget style={{ color: '#418BCA', fontSize: '32px' }} />
-                </Box>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    fontWeight: 600,
-                    color: '#0C3042',
-                    mb: 2,
-                  }}
-                >
-                  Technique Analysis
-                </Typography>
-                <Typography sx={{ color: '#6b7280' }}>
-                  AI analyzes your form, mechanics, and execution with frame-by-frame precision to identify improvement
-                  areas.
-                </Typography>
-              </Card>
-            </Grid>
-
-            <Grid item xs={10} md={4}>
-              <Card
-                sx={{
-                  backgroundColor: 'white',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '12px',
-                  boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-                  textAlign: 'center',
-                  p: 3,
-                  transition: 'transform 0.3s ease',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                  },
-                }}
-              >
-                <Box
-                  sx={{
-                    width: '64px',
-                    height: '64px',
-                    mx: 'auto',
-                    mb: 3,
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(242, 106, 39, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <TrendingUp style={{ color: '#F26A27', fontSize: '32px' }} />
-                </Box>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    fontWeight: 600,
-                    color: '#0C3042',
-                    mb: 2,
-                  }}
-                >
-                  Performance Insights
-                </Typography>
-                <Typography sx={{ color: '#6b7280' }}>
-                  Get detailed feedback on timing, positioning, and overall performance metrics with confidence scores.
-                </Typography>
-              </Card>
-            </Grid>
-
-            <Grid item xs={10} md={4}>
-              <Card
-                sx={{
-                  backgroundColor: 'white',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '12px',
-                  boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-                  textAlign: 'center',
-                  p: 3,
-                  transition: 'transform 0.3s ease',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                  },
-                }}
-              >
-                <Box
-                  sx={{
-                    width: '64px',
-                    height: '64px',
-                    mx: 'auto',
-                    mb: 3,
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(12, 48, 66, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <ElectricBoltIcon style={{ color: '#0C3042', fontSize: '32px' }} />
-                </Box>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    fontWeight: 600,
-                    color: '#0C3042',
-                    mb: 2,
-                  }}
-                >
-                  Instant Results
-                </Typography>
-                <Typography sx={{ color: '#6b7280' }}>
-                  Upload your video and receive comprehensive analysis within minutes, not hours or days.
-                </Typography>
-              </Card>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
-
-      {/* How It Works Section */}
-      <Box sx={{ py: { xs: 8, md: 12 } }}>
-        <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Box
-              sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                px: 3,
-                py: 1,
-                borderRadius: '9999px',
-                fontSize: '14px',
-                fontWeight: 500,
-                backgroundColor: 'rgba(242, 106, 39, 0.1)',
-                color: '#F26A27',
-                border: '1px solid rgba(242, 106, 39, 0.2)',
-                mb: 2,
-              }}
-            >
-              Simple Process
-            </Box>
-            <Typography
-              variant="h2"
-              sx={{
-                fontWeight: 700,
-                color: '#0C3042',
-                mb: 3,
-                fontSize: { xs: '2rem', md: '2.5rem' },
-              }}
-            >
-              How <Box component="span" sx={{ background: 'linear-gradient(135deg, #F26A27, #418BCA)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>You In Sports</Box> Works
-            </Typography>
-            <Typography
-              sx={{
-                color: '#6b7280',
-                maxWidth: '768px',
-                mx: 'auto',
-                fontSize: '1.125rem',
-              }}
-            >
-              Get started in minutes and begin building your athletic network today
-            </Typography>
-          </Box>
-
-          <Box sx={{ maxWidth: '1280px', mx: 'auto' }}>
-            <Grid container spacing={8}>
-              {[
-                {
-                  number: 1,
-                  title: 'Create Your Profile',
-                  description: 'Sign up and build your professional sports CV with achievements, stats, and media in minutes.',
-                  color: '#F26A27',
-                },
-                {
-                  number: 2,
-                  title: 'Connect & Network',
-                  description: 'Join communities, connect with coaches and sponsors, and build your professional network.',
-                  color: '#418BCA',
-                },
-                {
-                  number: 3,
-                  title: 'Achieve Your Goals',
-                  description: 'Get discovered, receive support, and take your athletic career to new heights.',
-                  color: '#0C3042',
-                },
-              ].map((step, index) => (
-                <Grid item xs={12} md={4} key={index}>
-                  <Box sx={{ textAlign: 'center' }}>
-                    <Box sx={{ position: 'relative', mb: 4 }}>
-                      <Box
-                        sx={{
-                          width: '80px',
-                          height: '80px',
-                          mx: 'auto',
-                          borderRadius: '50%',
-                          backgroundColor: step.color,
-                          color: 'white',
-                          fontSize: '24px',
-                          fontWeight: 700,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-                        }}
-                      >
-                        {step.number}
-                      </Box>
-                    </Box>
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        fontWeight: 600,
-                        color: '#0C3042',
-                        mb: 2,
-                      }}
-                    >
-                      {step.title}
-                    </Typography>
-                    <Typography sx={{ color: '#6b7280' }}>
-                      {step.description}
-                    </Typography>
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </Container>
-      </Box>
-
-      {/* Success Stories Section */}
-      <Box sx={{ py: { xs: 8, md: 12 }, backgroundColor: '#0C3042', color: 'white' }}>
-        <Container maxWidth="lg">
-          <Grid container spacing={8} alignItems="center">
-            <Grid item xs={12} lg={6}>
-              <Box>
-                <Box
-                  sx={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    px: 3,
-                    py: 1,
-                    borderRadius: '9999px',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                    color: 'white',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    mb: 2,
-                  }}
-                >
-                  Success Stories
-                </Box>
-                <Typography
-                  variant="h2"
-                  sx={{
-                    fontWeight: 700,
-                    mb: 3,
-                    fontSize: { xs: '2rem', md: '2.5rem' },
-                  }}
-                >
-                  Real Athletes, <Box component="span" sx={{ color: '#F26A27' }}>Real Results</Box>
-                </Typography>
-                <Typography
-                  sx={{
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    mb: 4,
-                    fontSize: '1.125rem',
-                  }}
-                >
-                  "You In Sports connected me with a sponsor who funded my journey to the national championships. Without
-                  this platform, I wouldn't have had the opportunity to compete at this level and achieve my dreams.
-                  This app is literally life-changing!"
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
-                  <Box
-                    sx={{
-                      width: '48px',
-                      height: '48px',
-                      borderRadius: '50%',
-                      backgroundColor: '#F26A27',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Typography sx={{ color: 'white', fontWeight: 700 }}>
-                      SJ
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography sx={{ fontWeight: 700, color: 'white' }}>
-                      Sarah Johnson
-                    </Typography>
-                    <Typography sx={{ color: '#F26A27', fontWeight: 500 }}>
-                      Track & Field Athlete
-                    </Typography>
-                  </Box>
-                </Box>
-
-                <Grid container spacing={3}>
-                  {[
-                    { value: '500+', label: 'Success Stories' },
-                    { value: '$2M+', label: 'Funds Raised' },
-                    { value: '78%', label: 'Goal Achievement' },
-                  ].map((stat, index) => (
-                    <Grid item xs={4} key={index}>
-                      <Card
-                        sx={{
-                          backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                          backdropFilter: 'blur(10px)',
-                          borderRadius: '12px',
-                          border: '1px solid rgba(255, 255, 255, 0.2)',
-                          textAlign: 'center',
-                          p: 2,
-                        }}
-                      >
-                        <Typography
-                          variant="h4"
-                          sx={{
-                            fontWeight: 700,
-                            color: '#F26A27',
-                            mb: 1,
-                          }}
-                        >
-                          {stat.value}
-                        </Typography>
-                        <Typography sx={{ color: 'rgba(255, 255, 255, 0.8)', fontWeight: 500 }}>
-                          {stat.label}
-                        </Typography>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-
-                <Box sx={{ mt: 4 }}>
-                  <Button
-                    sx={{
-                      color: 'white',
-                      fontWeight: 600,
-                      px: 3,
-                      py: 1.5,
-                      borderRadius: '8px',
-                      backgroundColor: 'rgb(242 106 39 / var(--tw-bg-opacity, 1))',
-                      '&:hover': {
-                        backgroundColor: 'rgba(46, 150, 255, 0.976)',
-                      },
-                    }}
-                  >
-                    Read More Stories
-                  </Button>
-                </Box>
-              </Box>
-            </Grid>
-
-            <Grid item xs={12} lg={6}>
-              <Box sx={{ position: 'relative' }}>
-                <Box
-                  sx={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '500px',
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                  }}
-                >
-                  <Box
-                    component="img"
-                    src="/placeholder.svg?height=500&width=600&text=Success+Story"
-                    alt="Success story"
-                    sx={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                    }}
-                  />
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background: 'linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent)',
-                    }}
-                  />
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      bottom: 24,
-                      left: 24,
-                      right: 24,
-                    }}
-                  >
-                    <Card
-                      sx={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                        backdropFilter: 'blur(10px)',
-                        borderRadius: '12px',
-                        border: '1px solid rgba(255, 255, 255, 0.2)',
-                        p: 2,
-                      }}
-                    >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                        <CheckCircle sx={{ color: '#10b981', fontSize: '24px' }} />
-                        <Typography sx={{ color: 'white', fontWeight: 700 }}>
-                          Funding Goal Achieved!
-                        </Typography>
-                      </Box>
-                      <Typography sx={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '14px' }}>
-                        Sarah raised $15,000 for her training and competition expenses
-                      </Typography>
-                    </Card>
-                  </Box>
-                </Box>
               </Box>
             </Grid>
           </Grid>
         </Container>
       </Box>
 
-      {/* CTA Section */}
-      <Box sx={{ py: { xs: 8, md: 12 }, backgroundColor: '#f9fafb' }}>
-        <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', maxWidth: '1024px', mx: 'auto' }}>
-            <Box
+      {/* --- CTA SECTION --- */}
+      <Box sx={{ py: 16, bgcolor: 'var(--gray-900)', color: 'white', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0.1, background: 'radial-gradient(circle at 50% 50%, var(--uinsports-blue), transparent 70%)' }} />
+        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
+          <Typography variant="h2" sx={{ fontWeight: 800, mb: 3, fontSize: { xs: '2.5rem', md: '4rem' } }}>
+            Ready to make history?
+          </Typography>
+          <Typography sx={{ color: 'var(--gray-400)', fontSize: '1.25rem', mb: 6, maxWidth: 600, mx: 'auto' }}>
+            Join thousands of athletes who are taking control of their sports careers today.
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, justifyContent: 'center' }}>
+            <Button
+              variant="contained"
+              size="large"
               sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                px: 3,
-                py: 1,
-                borderRadius: '9999px',
-                fontSize: '14px',
-                fontWeight: 500,
-                backgroundColor: 'rgba(242, 106, 39, 0.1)',
-                color: '#F26A27',
-                border: '1px solid rgba(242, 106, 39, 0.2)',
-                mb: 3,
-              }}
-            >
-              Ready to Get Started?
-            </Box>
-            <Typography
-              variant="h2"
-              sx={{
+                borderRadius: '50px',
+                px: 6,
+                py: 2,
+                fontSize: '1.1rem',
                 fontWeight: 700,
-                color: '#0C3042',
-                mb: 4,
-                fontSize: { xs: '2rem', md: '2.5rem' },
+                background: 'white',
+                color: 'var(--gray-900)',
+                textTransform: 'none',
+                '&:hover': {
+                  background: 'var(--gray-100)',
+                }
               }}
             >
-              Your Athletic Journey
-              <Box component="span" sx={{ display: 'block', background: 'linear-gradient(135deg, #F26A27, #418BCA)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                Starts Here!
-              </Box>
-            </Typography>
-            <Typography
+              Get Started Free
+            </Button>
+            <Button
+              variant="outlined"
+              size="large"
               sx={{
-                color: '#6b7280',
-                mb: 6,
-                maxWidth: '512px',
-                mx: 'auto',
-                fontSize: '1.125rem',
+                borderRadius: '50px',
+                px: 6,
+                py: 2,
+                fontSize: '1.1rem',
+                fontWeight: 700,
+                borderColor: 'rgba(255,255,255,0.3)',
+                color: 'white',
+                textTransform: 'none',
+                '&:hover': {
+                  borderColor: 'white',
+                  background: 'rgba(255,255,255,0.05)'
+                }
               }}
             >
-              Join thousands of athletes who are taking control of their sports careers with You In Sports. Create your
-              profile, build your network, and achieve your dreams.
-            </Typography>
-
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' },
-                gap: 3,
-                justifyContent: 'center',
-                mb: 6,
-              }}
-            >
-              <Button
-                size="large"
-                sx={{
-                  color: 'white',
-                  fontWeight: 600,
-                  px: 3,
-                  py: 1.5,
-                  borderRadius: '8px',
-                  backgroundColor: '#F26A27',
-                  '&:hover': {
-                    backgroundColor: 'rgba(242, 106, 39, 0.9)',
-                  },
-                }}
-              >
-                <GpsFixed style={{ marginRight: 10 }} />
-                Create Your Profile
-              </Button>
-              <Button
-                size="large"
-                sx={{
-                  backgroundColor: '#418BCA',
-                  color: 'white',
-                  fontWeight: 600,
-                  px: 3,
-                  py: 1.5,
-                  borderRadius: '8px',
-                  '&:hover': {
-                    backgroundColor: 'rgba(65, 139, 202, 0.9)',
-                  },
-                }}
-              >
-                <Favorite style={{ marginRight: 10 }} />
-                Support Athletes
-              </Button>
-              <Button
-                size="large"
-                sx={{
-                  borderColor: '#418BCA',
-                  // color: '#418BCA',
-                  backgroundColor: 'rgba(46, 150, 255, 0.976)',
-                  fontWeight: 600,
-                  px: 3,
-                  py: 1.5,
-                  borderRadius: '8px',
-                  '&:hover': {
-                    borderColor: '#418BCA',
-                    color: "white",
-                    backgroundColor: 'rgba(46, 150, 255, 0.976)',
-                  },
-                }}
-              >
-                View Plans
-              </Button>
-            </Box>
-
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 6,
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              {[
-                { value: `${totalUsers.toLocaleString()}+`, label: 'Active Athletes' },
-                { value: '50+', label: 'Sports Covered' },
-                { value: '4+', label: 'Countries' },
-              ].map((stat, index) => (
-                <Card
-                  key={index}
-                  sx={{
-                    backgroundColor: 'white',
-                    borderRadius: '12px',
-                    p: 2,
-                    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-                    border: '1px solid #e5e7eb',
-                    textAlign: 'center',
-                  }}
-                >
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      fontWeight: 700,
-                      color: '#0C3042',
-                      mb: 1,
-                    }}
-                  >
-                    {stat.value}
-                  </Typography>
-                  <Typography sx={{ color: '#6b7280', fontWeight: 500 }}>
-                    {stat.label}
-                  </Typography>
-                </Card>
-              ))}
-            </Box>
+              Contact Sales
+            </Button>
           </Box>
         </Container>
       </Box>
